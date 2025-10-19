@@ -253,74 +253,206 @@
       </q-card>
     </q-dialog>
 
-    <!-- Property Details Dialog -->
-    <q-dialog v-model="showDetailsDialog" maximized>
-      <q-card>
-        <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">{{ selectedProperty?.name }}</div>
-          <q-space />
-          <q-btn icon="close" flat round dense @click="showDetailsDialog = false" />
-        </q-card-section>
-
-        <q-card-section v-if="selectedProperty">
-          <div class="row q-gutter-md">
-            <div class="col-12 col-md-6">
-              <q-card flat bordered>
-                <q-card-section>
-                  <div class="text-h6 q-mb-md">Property Information</div>
-                  <div class="row q-gutter-sm">
-                    <div class="col-6"><strong>Type:</strong> {{ selectedProperty.type }}</div>
-                    <div class="col-6"><strong>Status:</strong>
-                      <q-chip :color="getStatusColor(selectedProperty.status)" text-color="white" :label="selectedProperty.status" size="sm" class="q-ml-xs" />
-                    </div>
-                    <div class="col-6"><strong>Price:</strong> {{ formatPrice(selectedProperty.price) }}</div>
-                    <div class="col-6"><strong>City:</strong> {{ selectedProperty.city }}</div>
-                    <div class="col-12"><strong>Address:</strong> {{ selectedProperty.address }}</div>
-                    <div class="col-12"><strong>Description:</strong> {{ selectedProperty.description }}</div>
-                  </div>
-                </q-card-section>
-              </q-card>
+    <!-- Modern Property Details Modal -->
+    <q-dialog v-model="showDetailsDialog" class="modern-modal" maximized>
+      <div class="modal-card">
+        <!-- Hero Section -->
+        <div class="modal-hero">
+          <div class="hero-background">
+            <img :src="getImageUrl(selectedProperty)" alt="Property" class="hero-image">
+            <div class="hero-overlay"></div>
+          </div>
+          <div class="hero-content">
+            <div class="hero-header">
+              <div class="hero-title-section">
+                <h1 class="hero-title">{{ selectedProperty?.name }}</h1>
+                <div class="hero-subtitle">
+                  <q-icon name="location_on" size="sm" />
+                  <span>{{ selectedProperty?.address }}, {{ selectedProperty?.city }}</span>
+                </div>
+              </div>
+              <div class="hero-actions">
+                <q-chip
+                  :color="getStatusColor(selectedProperty?.status)"
+                  text-color="white"
+                  :label="selectedProperty?.status"
+                  class="status-chip-large"
+                />
+                <q-btn
+                  icon="close"
+                  flat
+                  round
+                  dense
+                  class="close-btn"
+                  @click="showDetailsDialog = false"
+                />
+              </div>
             </div>
-
-            <div class="col-12 col-md-6">
-              <q-card flat bordered>
-                <q-card-section>
-                  <div class="text-h6 q-mb-md">Property Details</div>
-                  <div class="row q-gutter-sm">
-                    <div class="col-12"><strong>Property ID:</strong> {{ selectedProperty.propertyId || 'N/A' }}</div>
-                    <div class="col-12"><strong>Title Document:</strong> {{ selectedProperty.titleDocument || 'N/A' }}</div>
-                    <div class="col-12"><strong>Landmark:</strong> {{ selectedProperty.landmark || 'N/A' }}</div>
-                    <div class="col-12"><strong>Date Listed:</strong> {{ formatDate(selectedProperty.dateListed) }}</div>
-                    <div class="col-12"><strong>Description:</strong></div>
-                    <div class="col-12 q-pl-md">{{ selectedProperty.description || 'No description available' }}</div>
-                    <div class="col-12"><strong>Notes:</strong></div>
-                    <div class="col-12 q-pl-md">{{ selectedProperty.note || 'No notes available' }}</div>
-                  </div>
-                </q-card-section>
-              </q-card>
-            </div>
-
-            <div class="col-12 col-md-6">
-              <q-card flat bordered>
-                <q-card-section>
-                  <div class="text-h6 q-mb-md">Agent Information</div>
-                  <div class="row q-gutter-sm">
-                    <div class="col-12"><strong>Name:</strong> {{ selectedProperty.agentName || 'N/A' }}</div>
-                    <div class="col-12"><strong>Contact:</strong> {{ selectedProperty.agentNumber || 'N/A' }}</div>
-                    <div class="col-12"><strong>Email:</strong> {{ selectedProperty.agentEmail || 'N/A' }}</div>
-                  </div>
-                  <div class="text-h6 q-mt-lg q-mb-md">Seller Information</div>
-                  <div class="row q-gutter-sm">
-                    <div class="col-12"><strong>Name:</strong> {{ selectedProperty.sellerName || 'N/A' }}</div>
-                    <div class="col-12"><strong>Contact:</strong> {{ selectedProperty.sellerContact || 'N/A' }}</div>
-                    <div class="col-12"><strong>Email:</strong> {{ selectedProperty.sellerEmail || 'N/A' }}</div>
-                  </div>
-                </q-card-section>
-              </q-card>
+            <div class="hero-price">
+              <div class="price-display">{{ formatPrice(selectedProperty?.price) }}</div>
+              <div class="price-label">Property Value</div>
             </div>
           </div>
-        </q-card-section>
-      </q-card>
+        </div>
+
+        <!-- Modal Content -->
+        <div class="modal-content" v-if="selectedProperty">
+          <div class="content-grid">
+            <!-- Basic Property Information -->
+            <div class="info-card glass-card">
+              <div class="card-header">
+                <div class="card-icon-wrapper">
+                  <q-icon name="home" size="md" />
+                </div>
+                <h3>Property Information</h3>
+              </div>
+              <div class="card-content">
+                <div class="info-row">
+                  <span class="info-label">Property Type</span>
+                  <span class="info-value">{{ selectedProperty.type }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Location</span>
+                  <span class="info-value">{{ selectedProperty.city }}, {{ selectedProperty.address }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Property ID</span>
+                  <span class="info-value">{{ selectedProperty.propertyId || 'N/A' }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Date Listed</span>
+                  <span class="info-value">{{ formatDate(selectedProperty.dateListed) }}</span>
+                </div>
+                <div class="description-section">
+                  <h4 class="section-title">Description</h4>
+                  <p class="description-text">{{ selectedProperty.description || 'No description available' }}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Property Documents & Details -->
+            <div class="info-card glass-card">
+              <div class="card-header">
+                <div class="card-icon-wrapper">
+                  <q-icon name="description" size="md" />
+                </div>
+                <h3>Documents & Details</h3>
+              </div>
+              <div class="card-content">
+                <div class="info-row">
+                  <span class="info-label">Title Document</span>
+                  <span class="info-value">{{ selectedProperty.titleDocument || 'N/A' }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Landmark</span>
+                  <span class="info-value">{{ selectedProperty.landmark || 'N/A' }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Property Status</span>
+                  <q-chip
+                    :color="getStatusColor(selectedProperty.status)"
+                    text-color="white"
+                    :label="selectedProperty.status"
+                    size="sm"
+                  />
+                </div>
+                <div class="description-section">
+                  <h4 class="section-title">Additional Notes</h4>
+                  <p class="description-text">{{ selectedProperty.note || 'No additional notes available' }}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Agent Information -->
+            <div class="info-card glass-card">
+              <div class="card-header">
+                <div class="card-icon-wrapper">
+                  <q-icon name="person" size="md" />
+                </div>
+                <h3>Agent Information</h3>
+              </div>
+              <div class="card-content">
+                <div class="contact-info">
+                  <div class="contact-item">
+                    <q-icon name="account_circle" />
+                    <div>
+                      <div class="contact-label">Agent Name</div>
+                      <div class="contact-value">{{ selectedProperty.agentName || 'N/A' }}</div>
+                    </div>
+                  </div>
+                  <div class="contact-item">
+                    <q-icon name="phone" />
+                    <div>
+                      <div class="contact-label">Contact Number</div>
+                      <div class="contact-value">{{ selectedProperty.agentNumber || 'N/A' }}</div>
+                    </div>
+                  </div>
+                  <div class="contact-item">
+                    <q-icon name="email" />
+                    <div>
+                      <div class="contact-label">Email Address</div>
+                      <div class="contact-value">{{ selectedProperty.agentEmail || 'N/A' }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Seller Information -->
+            <div class="info-card glass-card">
+              <div class="card-header">
+                <div class="card-icon-wrapper">
+                  <q-icon name="business" size="md" />
+                </div>
+                <h3>Seller Information</h3>
+              </div>
+              <div class="card-content">
+                <div class="contact-info">
+                  <div class="contact-item">
+                    <q-icon name="account_circle" />
+                    <div>
+                      <div class="contact-label">Seller Name</div>
+                      <div class="contact-value">{{ selectedProperty.sellerName || 'N/A' }}</div>
+                    </div>
+                  </div>
+                  <div class="contact-item">
+                    <q-icon name="phone" />
+                    <div>
+                      <div class="contact-label">Contact Number</div>
+                      <div class="contact-value">{{ selectedProperty.sellerContact || 'N/A' }}</div>
+                    </div>
+                  </div>
+                  <div class="contact-item">
+                    <q-icon name="email" />
+                    <div>
+                      <div class="contact-label">Email Address</div>
+                      <div class="contact-value">{{ selectedProperty.sellerEmail || 'N/A' }}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="contact-actions">
+                  <q-btn
+                    label="Call Seller"
+                    color="primary"
+                    icon="phone"
+                    class="contact-btn"
+                    :href="`tel:${selectedProperty.sellerContact}`"
+                    v-if="selectedProperty.sellerContact"
+                  />
+                  <q-btn
+                    label="Email Seller"
+                    color="secondary"
+                    icon="email"
+                    class="contact-btn"
+                    :href="`mailto:${selectedProperty.sellerEmail}`"
+                    v-if="selectedProperty.sellerEmail"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </q-dialog>
   </q-page>
 </template>
@@ -886,5 +1018,396 @@ export default defineComponent({
 
 .status-under-offer {
   background-color: rgba(255, 152, 0, 0.1);
+}
+
+/* Modern Property Details Modal Styles */
+.modern-modal .q-dialog__inner {
+  padding: 0;
+  max-width: 100vw;
+  max-height: 100vh;
+}
+
+.modal-card {
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* Hero Section */
+.modal-hero {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 0;
+}
+
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.6);
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 32px;
+  color: white;
+}
+
+.hero-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.hero-title-section {
+  flex: 1;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  opacity: 0.9;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.status-chip-large {
+  font-size: 0.9rem;
+  padding: 8px 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.close-btn {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.hero-price {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.price-display {
+  font-size: 2.2rem;
+  font-weight: 800;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  margin-bottom: 4px;
+}
+
+.price-label {
+  font-size: 1rem;
+  opacity: 0.9;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Modal Content */
+.modal-content {
+  padding: 32px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: calc(100vh - 400px);
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.info-card {
+  height: fit-content;
+}
+
+/* Glassmorphism Cards */
+.glass-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Card Headers */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.08);
+  padding: 20px 20px 16px 20px;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.card-icon-wrapper {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  padding: 8px;
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Card Content */
+.card-content {
+  padding: 0 20px 20px 20px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 0.95rem;
+}
+
+.info-value {
+  color: #2d3748;
+  font-weight: 500;
+  text-align: right;
+  max-width: 60%;
+  word-break: break-word;
+}
+
+/* Description Sections */
+.description-section {
+  margin: 20px 0 0 0;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0 0 8px 0;
+}
+
+.description-text {
+  color: #4a5568;
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Contact Information */
+.contact-info {
+  padding: 0;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.contact-item:last-child {
+  border-bottom: none;
+}
+
+.contact-item .q-icon {
+  color: #718096;
+  background: rgba(113, 128, 150, 0.1);
+  border-radius: 6px;
+  padding: 6px;
+}
+
+.contact-label {
+  font-size: 0.8rem;
+  color: #718096;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.contact-value {
+  font-size: 1rem;
+  color: #2d3748;
+  font-weight: 500;
+}
+
+/* Contact Actions */
+.contact-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.contact-btn {
+  flex: 1;
+  min-width: 120px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .content-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .price-display {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-hero {
+    height: 300px;
+  }
+
+  .hero-content {
+    padding: 24px;
+  }
+
+  .hero-title {
+    font-size: 1.8rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .price-display {
+    font-size: 1.6rem;
+  }
+
+  .modal-content {
+    padding: 24px 16px;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .hero-actions {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .contact-actions {
+    flex-direction: column;
+  }
+
+  .contact-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-hero {
+    height: 250px;
+  }
+
+  .hero-content {
+    padding: 20px;
+  }
+
+  .hero-title {
+    font-size: 1.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .price-display {
+    font-size: 1.4rem;
+  }
+
+  .card-header h3 {
+    font-size: 1.2rem;
+  }
+
+  .info-label,
+  .info-value {
+    font-size: 0.9rem;
+  }
 }
 </style>
