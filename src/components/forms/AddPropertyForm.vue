@@ -51,6 +51,7 @@
               <div class="form-section">
                 <div class="text-subtitle1 text-weight-medium text-primary q-mb-md">Property Details</div>
                 <q-input filled v-model="form.titleDocument" label="Title Document" />
+                <q-input filled v-model="form.landSize" label="Land Size" placeholder="e.g., 500 sqm, 2 acres" />
                 <q-input
                   filled
                   type="textarea"
@@ -148,6 +149,7 @@
 
         // Property Details
         titleDocument: '',
+        landSize: '',
         description: '',
         note: '',
         dateListed: new Date().toISOString().split('T')[0], // Today's date as default
