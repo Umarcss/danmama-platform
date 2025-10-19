@@ -15,6 +15,7 @@
           :loading="dataStore.loading"
         />
         <q-btn
+          v-if="isAuthenticated"
           color="secondary"
           icon="add"
           label="Add Property"
@@ -151,6 +152,12 @@
           </q-td>
         </template>
 
+        <template #body-cell-propertyId="props">
+          <q-td :props="props">
+            <div class="text-weight-medium">{{ props.row.propertyId || 'N/A' }}</div>
+          </q-td>
+        </template>
+
         <template #body-cell-price="props">
           <q-td :props="props">
             <div class="text-weight-bold text-secondary">{{ formatPrice(props.row.price) }}</div>
@@ -159,7 +166,9 @@
 
         <template #body-cell-status="props">
           <q-td :props="props">
+            <!-- Editable status for authenticated users (admins) -->
             <q-select
+              v-if="isAuthenticated"
               v-model="props.row.status"
               :options="['Available', 'Sold', 'Under Offer']"
               dense
@@ -170,6 +179,16 @@
               class="status-select"
               :class="getStatusClass(props.row.status)"
             />
+            <!-- Read-only status display for regular users -->
+            <q-chip
+              v-else
+              :color="getStatusColor(props.row.status)"
+              text-color="white"
+              dense
+              class="status-chip"
+            >
+              {{ props.row.status }}
+            </q-chip>
           </q-td>
         </template>
 
@@ -225,12 +244,14 @@
     </q-card>
 
     <!-- Property Form Modal -->
-    <q-dialog v-model="showForm" persistent maximized>
-      <AddPropertyForm
-        :item-to-edit="itemToEdit"
-        @save="handleSave"
-        @close="closeForm"
-      />
+    <q-dialog v-model="showForm" persistent maximized class="scrollable-modal">
+      <q-scroll-area style="height: 90vh; max-width: 100%;">
+        <AddPropertyForm
+          :item-to-edit="itemToEdit"
+          @save="handleSave"
+          @close="closeForm"
+        />
+      </q-scroll-area>                                                                                                                                                                                                                                                                                
     </q-dialog>
 
     <!-- Delete Confirmation Dialog -->
@@ -255,7 +276,8 @@
 
     <!-- Modern Property Details Modal -->
     <q-dialog v-model="showDetailsDialog" class="modern-modal" maximized>
-      <div class="modal-card">
+      <q-scroll-area style="height: 90vh; max-width: 100%;">
+        <div class="modal-card">
         <!-- Hero Section -->
         <div class="modal-hero">
           <div class="hero-background">
@@ -453,6 +475,7 @@
           </div>
         </div>
       </div>
+      </q-scroll-area>
     </q-dialog>
   </q-page>
 </template>
@@ -512,6 +535,13 @@ export default defineComponent({
         align: 'center',
         field: 'image',
         sortable: false
+      },
+      {
+        name: 'propertyId',
+        label: 'Property ID',
+        align: 'left',
+        field: 'propertyId',
+        sortable: true
       },
       {
         name: 'name',
@@ -1008,6 +1038,13 @@ export default defineComponent({
   min-width: 120px;
 }
 
+.status-chip {
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 12px;
+  min-height: 24px;
+}
+
 .status-available {
   background-color: rgba(76, 175, 80, 0.1);
 }
@@ -1025,6 +1062,29 @@ export default defineComponent({
   padding: 0;
   max-width: 100vw;
   max-height: 100vh;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 0;
+}
+
+.modern-modal .q-scroll-area {
+  border-radius: 0;
+}
+
+/* Scrollable Form Modal Styles */
+.scrollable-modal .q-dialog__inner {
+  padding: 0;
+  max-width: 100vw;
+  max-height: 100vh;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 0;
+}
+
+.scrollable-modal .q-scroll-area {
+  border-radius: 0;
 }
 
 .modal-card {

@@ -1,102 +1,111 @@
 <template>
-    <q-card class="add-form-card" style="min-width: 600px; max-width: 800px;">
+    <q-card class="add-form-card" style="min-width: 600px; max-width: 800px; margin: 0 auto;">
       <q-card-section>
         <div class="text-h6">{{ isEditing ? 'Edit Property' : 'Add New Property' }}</div>
       </q-card-section>
       <q-separator />
       <q-card-section class="q-pa-md">
         <q-form @submit="onSubmit" class="q-gutter-lg">
-          <!-- Basic Property Information -->
-          <div class="form-section">
-            <div class="text-subtitle1 text-weight-medium text-primary q-mb-md">Basic Property Information</div>
-            <div class="row q-gutter-md">
-              <div class="col-12 col-md-6">
-                <q-input filled v-model="form.name" label="Property Name *" required />
+          <!-- Form Sections Row -->
+          <div class="row q-gutter-md">
+            <!-- Left Column -->
+            <div class="col-12 col-md-6">
+              <!-- Basic Property Information -->
+              <div class="form-section">
+                <div class="text-subtitle1 text-weight-medium text-primary q-mb-md">Basic Property Information</div>
+                <div class="row q-gutter-md">
+                  <div class="col-12 col-md-6">
+                    <q-input filled v-model="form.name" label="Property Name *" required />
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <q-input filled v-model="form.propertyId" label="Property ID" />
+                  </div>
+                </div>
+                <div class="row q-gutter-md">
+                  <div class="col-12 col-md-6">
+                    <q-input filled v-model="form.type" label="Property Type *" required />
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <q-select
+                      filled
+                      v-model="form.status"
+                      :options="['Available', 'Sold', 'Under Offer']"
+                      label="Status *"
+                      required
+                    />
+                  </div>
+                </div>
+                <q-input filled v-model="form.price" label="Price *" required />
+                <div class="row q-gutter-md">
+                  <div class="col-12 col-md-6">
+                    <q-input filled v-model="form.city" label="City *" required />
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <q-input filled v-model="form.landmark" label="Landmark" />
+                  </div>
+                </div>
+                <q-input filled v-model="form.address" label="Full Address *" required />
               </div>
-              <div class="col-12 col-md-6">
-                <q-input filled v-model="form.propertyId" label="Property ID" />
-              </div>
-            </div>
-            <div class="row q-gutter-md">
-              <div class="col-12 col-md-6">
-                <q-input filled v-model="form.type" label="Property Type *" required />
-              </div>
-              <div class="col-12 col-md-6">
-                <q-select
+
+              <!-- Property Details -->
+              <div class="form-section">
+                <div class="text-subtitle1 text-weight-medium text-primary q-mb-md">Property Details</div>
+                <q-input filled v-model="form.titleDocument" label="Title Document" />
+                <q-input
                   filled
-                  v-model="form.status"
-                  :options="['Available', 'Sold', 'Under Offer']"
-                  label="Status *"
-                  required
+                  type="textarea"
+                  rows="3"
+                  v-model="form.description"
+                  label="Description"
+                  placeholder="Detailed description of the property..."
+                />
+                <q-input
+                  filled
+                  type="textarea"
+                  rows="2"
+                  v-model="form.note"
+                  label="Notes"
+                  placeholder="Additional notes or special instructions..."
+                />
+                <q-input
+                  filled
+                  type="date"
+                  v-model="form.dateListed"
+                  label="Date Listed"
                 />
               </div>
             </div>
-            <q-input filled v-model="form.price" label="Price *" required />
-            <div class="row q-gutter-md">
-              <div class="col-12 col-md-6">
-                <q-input filled v-model="form.city" label="City *" required />
+
+            <!-- Right Column -->
+            <div class="col-12 col-md-6">
+              <!-- Seller Information -->
+              <div class="form-section">
+                <div class="text-subtitle1 text-weight-medium text-primary q-mb-md">Seller Information</div>
+                <div class="row q-gutter-md">
+                  <div class="col-12 col-md-6">
+                    <q-input filled v-model="form.sellerName" label="Seller Name" />
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <q-input filled v-model="form.sellerContact" label="Seller Contact" />
+                  </div>
+                </div>
+                <q-input filled type="email" v-model="form.sellerEmail" label="Seller Email" />
               </div>
-              <div class="col-12 col-md-6">
-                <q-input filled v-model="form.landmark" label="Landmark" />
+
+              <!-- Agent Information -->
+              <div class="form-section">
+                <div class="text-subtitle1 text-weight-medium text-primary q-mb-md">Agent Information</div>
+                <div class="row q-gutter-md">
+                  <div class="col-12 col-md-6">
+                    <q-input filled v-model="form.agentName" label="Agent Name *" required />
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <q-input filled v-model="form.agentNumber" label="Agent Contact *" required />
+                  </div>
+                </div>
+                <q-input filled type="email" v-model="form.agentEmail" label="Agent Email" />
               </div>
             </div>
-            <q-input filled v-model="form.address" label="Full Address *" required />
-          </div>
-
-          <!-- Property Details -->
-          <div class="form-section">
-            <div class="text-subtitle1 text-weight-medium text-primary q-mb-md">Property Details</div>
-            <q-input filled v-model="form.titleDocument" label="Title Document" />
-            <q-input
-              filled
-              type="textarea"
-              rows="3"
-              v-model="form.description"
-              label="Description"
-              placeholder="Detailed description of the property..."
-            />
-            <q-input
-              filled
-              type="textarea"
-              rows="2"
-              v-model="form.note"
-              label="Notes"
-              placeholder="Additional notes or special instructions..."
-            />
-            <q-input
-              filled
-              type="date"
-              v-model="form.dateListed"
-              label="Date Listed"
-            />
-          </div>
-
-          <!-- Seller Information -->
-          <div class="form-section">
-            <div class="text-subtitle1 text-weight-medium text-primary q-mb-md">Seller Information</div>
-            <div class="row q-gutter-md">
-              <div class="col-12 col-md-6">
-                <q-input filled v-model="form.sellerName" label="Seller Name" />
-              </div>
-              <div class="col-12 col-md-6">
-                <q-input filled v-model="form.sellerContact" label="Seller Contact" />
-              </div>
-            </div>
-            <q-input filled type="email" v-model="form.sellerEmail" label="Seller Email" />
-          </div>
-
-          <!-- Agent Information -->
-          <div class="form-section">
-            <div class="text-subtitle1 text-weight-medium text-primary q-mb-md">Agent Information</div>
-            <div class="row q-gutter-md">
-              <div class="col-12 col-md-6">
-                <q-input filled v-model="form.agentName" label="Agent Name *" required />
-              </div>
-              <div class="col-12 col-md-6">
-                <q-input filled v-model="form.agentNumber" label="Agent Contact *" required />
-              </div>
-            </div>
-            <q-input filled type="email" v-model="form.agentEmail" label="Agent Email" />
           </div>
 
           <div class="row justify-end q-mt-lg">
@@ -206,6 +215,7 @@
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.5);
   margin-bottom: 16px;
+  height: fit-content;
 }
 
 .form-section .text-subtitle1 {
@@ -218,11 +228,18 @@
 @media (max-width: 768px) {
   .form-section {
     padding: 16px;
+    margin-bottom: 12px;
   }
 
   .q-card {
     min-width: 95vw !important;
     max-width: 95vw !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .form-section {
+    min-height: 200px;
   }
 }
 </style>
