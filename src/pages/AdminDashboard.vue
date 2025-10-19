@@ -110,25 +110,6 @@
             </q-card-section>
           </q-card>
         </div>
-
-        <div class="kpi-item">
-          <q-card flat class="kpi-card-modern">
-            <q-card-section class="q-pa-lg">
-              <div class="row items-center no-wrap">
-                <div class="col-auto">
-                  <div class="kpi-icon-modern bg-negative-5">
-                    <q-icon name="attach_money" size="2.5rem" color="negative" />
-                  </div>
-                </div>
-                <div class="col q-ml-md">
-                  <div class="kpi-value">{{ formatCurrency(totalValue) }}</div>
-                  <div class="text-body2 text-grey-7 q-mb-xs">Portfolio Value</div>
-                  <q-chip size="sm" color="positive" text-color="white" label="+5%" class="kpi-trend" />
-                </div>
-              </div>
-            </q-card-section>
-          </q-card>
-        </div>
       </div>
     </div>
 
