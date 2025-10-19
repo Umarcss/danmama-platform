@@ -285,12 +285,35 @@
             <div class="col-12 col-md-6">
               <q-card flat bordered>
                 <q-card-section>
+                  <div class="text-h6 q-mb-md">Property Details</div>
+                  <div class="row q-gutter-sm">
+                    <div class="col-12"><strong>Property ID:</strong> {{ selectedProperty.propertyId || 'N/A' }}</div>
+                    <div class="col-12"><strong>Title Document:</strong> {{ selectedProperty.titleDocument || 'N/A' }}</div>
+                    <div class="col-12"><strong>Landmark:</strong> {{ selectedProperty.landmark || 'N/A' }}</div>
+                    <div class="col-12"><strong>Date Listed:</strong> {{ formatDate(selectedProperty.dateListed) }}</div>
+                    <div class="col-12"><strong>Description:</strong></div>
+                    <div class="col-12 q-pl-md">{{ selectedProperty.description || 'No description available' }}</div>
+                    <div class="col-12"><strong>Notes:</strong></div>
+                    <div class="col-12 q-pl-md">{{ selectedProperty.note || 'No notes available' }}</div>
+                  </div>
+                </q-card-section>
+              </q-card>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <q-card flat bordered>
+                <q-card-section>
                   <div class="text-h6 q-mb-md">Agent Information</div>
                   <div class="row q-gutter-sm">
                     <div class="col-12"><strong>Name:</strong> {{ selectedProperty.agentName || 'N/A' }}</div>
                     <div class="col-12"><strong>Contact:</strong> {{ selectedProperty.agentNumber || 'N/A' }}</div>
-                    <div class="col-12"><strong>Title Document:</strong> {{ selectedProperty.titleDocument || 'N/A' }}</div>
-                    <div class="col-12"><strong>Landmark:</strong> {{ selectedProperty.landmark || 'N/A' }}</div>
+                    <div class="col-12"><strong>Email:</strong> {{ selectedProperty.agentEmail || 'N/A' }}</div>
+                  </div>
+                  <div class="text-h6 q-mt-lg q-mb-md">Seller Information</div>
+                  <div class="row q-gutter-sm">
+                    <div class="col-12"><strong>Name:</strong> {{ selectedProperty.sellerName || 'N/A' }}</div>
+                    <div class="col-12"><strong>Contact:</strong> {{ selectedProperty.sellerContact || 'N/A' }}</div>
+                    <div class="col-12"><strong>Email:</strong> {{ selectedProperty.sellerEmail || 'N/A' }}</div>
                   </div>
                 </q-card-section>
               </q-card>
@@ -345,11 +368,11 @@ export default defineComponent({
       sortBy: 'name',
       descending: false,
       page: 1,
-      rowsPerPage: 25,
+      rowsPerPage: 50,
       rowsNumber: 0
     });
 
-    // Table columns
+    // Table columns - Keep essential columns for better readability
     const columns = [
       {
         name: 'image',
@@ -373,17 +396,10 @@ export default defineComponent({
         sortable: true
       },
       {
-        name: 'address',
-        label: 'Address',
+        name: 'city',
+        label: 'City',
         align: 'left',
-        field: 'address',
-        sortable: true
-      },
-      {
-        name: 'agent',
-        label: 'Agent',
-        align: 'left',
-        field: 'agentName',
+        field: 'city',
         sortable: true
       },
       {
@@ -391,6 +407,13 @@ export default defineComponent({
         label: 'Price',
         align: 'right',
         field: 'price',
+        sortable: true
+      },
+      {
+        name: 'agentName',
+        label: 'Agent',
+        align: 'left',
+        field: 'agentName',
         sortable: true
       },
       {
@@ -416,6 +439,20 @@ export default defineComponent({
 
     const formatPrice = (price) => {
       return price || 'Contact for Price';
+    };
+
+    const formatDate = (dateString) => {
+      if (!dateString) return 'N/A';
+      try {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
+      } catch {
+        return dateString;
+      }
     };
 
     const getStatusColor = (status) => {
@@ -564,6 +601,7 @@ export default defineComponent({
       // Methods
       getImageUrl,
       formatPrice,
+      formatDate,
       getStatusColor,
       getStatusClass,
       openFormForCreate,

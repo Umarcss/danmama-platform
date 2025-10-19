@@ -6,3 +6,4 @@ export default boot(({ app }) => {
   app.use(pinia)
 })
 
+
