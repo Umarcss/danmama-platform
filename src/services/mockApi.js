@@ -16,8 +16,10 @@ let listingsForLand = [
 ];
 
 let propertyRequests = [
-  { id: 1, clientName: 'Huzaifa', request: 'Filling Station', phoneNumber: '08140545112', city: 'Abuja', location: 'Any', budget: '600M', specification: 'Katampe(Shema)', status: 'New' },
-  { id: 2, clientName: 'Client B', request: 'Built House', phoneNumber: 'N/A', city: 'Abuja', location: 'Gwarimpa', budget: '150-200M', specification: '3 or 4 bedrooms Bungalow', status: 'Contacted' }
+  { id: 1, clientName: 'Huzaifa', request: 'Filling Station', phoneNumber: '08140545112', city: 'Abuja', location: 'Any', address: 'Katampe Area', budget: '600M', size: '2 Acres', specification: 'Katampe(Shema)', status: 'New' },
+  { id: 2, clientName: 'Client B', request: 'Built House', phoneNumber: 'N/A', city: 'Abuja', location: 'Gwarimpa', address: 'Gwarimpa Estate', budget: '150-200M', size: '500 sqm', specification: '3 or 4 bedrooms Bungalow', status: 'Contacted' },
+  { id: 3, clientName: 'John Doe', request: 'Office Space', phoneNumber: '08098765432', city: 'Abuja', location: 'Wuse 2', address: 'Wuse 2 Business District', budget: '2-3M', size: '1000 sq ft', specification: 'Modern office with parking', status: 'New' },
+  { id: 4, clientName: 'Sarah Johnson', request: 'Land', phoneNumber: '07012345678', city: 'Abuja', location: 'Maitama', address: 'Maitama Extension', budget: '50-100M', size: '1.5 Acres', specification: 'For residential development', status: 'Contacted' }
 ];
 
 let listingsForRentals = [
