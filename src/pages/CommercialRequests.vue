@@ -166,39 +166,40 @@
 
     <!-- View Request Details Modal -->
     <q-dialog v-model="showDetailsDialog" class="modern-modal" maximized>
-      <q-card class="modal-card">
-        <div class="modal-hero">
-          <div class="hero-background">
-            <div class="hero-image" :style="{ backgroundImage: `url(${getRequestImage(requestToView)})` }"></div>
-            <div class="hero-overlay"></div>
-          </div>
-          <div class="hero-content">
-            <div class="hero-title-section">
-              <div class="hero-title">{{ requestToView?.clientName || 'Business Request' }}</div>
-              <div class="hero-subtitle">
-                <q-icon name="business" />
-                <span>{{ requestToView?.request || 'Commercial Space Request' }}</span>
+      <q-scroll-area style="height: 90vh; max-width: 100%;">
+        <q-card class="modal-card">
+          <!-- Hero Section -->
+          <div class="modal-hero">
+            <div class="hero-background">
+              <div class="hero-image" :style="{ backgroundImage: `url(${getRequestImage(requestToView)})` }"></div>
+              <div class="hero-overlay"></div>
+            </div>
+            <div class="hero-content">
+              <div class="hero-title-section">
+                <div class="hero-title">{{ requestToView?.clientName || 'Business Request' }}</div>
+                <div class="hero-subtitle">
+                  <q-icon name="business" />
+                  <span>{{ requestToView?.request || 'Commercial Space Request' }}</span>
+                </div>
+              </div>
+              <div class="hero-actions">
+                <q-btn
+                  flat
+                  round
+                  dense
+                  icon="close"
+                  color="white"
+                  @click="closeDetailsModal"
+                  class="close-btn"
+                />
               </div>
             </div>
-            <div class="hero-actions">
-              <q-btn
-                flat
-                round
-                dense
-                icon="close"
-                color="white"
-                @click="closeDetailsModal"
-                class="close-btn"
-              />
+            <div class="hero-price">
+              <div class="price-display">{{ formatBudget(requestToView?.budget) }}</div>
+              <div class="price-label">Monthly Budget</div>
             </div>
           </div>
-          <div class="hero-price">
-            <div class="price-display">{{ formatBudget(requestToView?.budget) }}</div>
-            <div class="price-label">Monthly Budget</div>
-          </div>
-        </div>
 
-        <q-scroll-area style="height: 90vh; max-width: 100%;">
           <div class="modal-content">
             <div class="content-grid">
             <!-- Request Information -->
@@ -299,8 +300,8 @@
             </q-card>
           </div>
           </div>
-        </q-scroll-area>
-      </q-card>
+        </q-card>
+      </q-scroll-area>
     </q-dialog>
 
     <!-- Add/Edit Request Form Modal -->

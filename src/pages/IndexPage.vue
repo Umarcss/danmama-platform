@@ -3,7 +3,7 @@
   <q-page class="q-pa-none">
     <!-- Hero Section with Glassmorphism -->
     <div class="hero-container">
-      <q-parallax src="https://danmamasmarthomes.org/assets/img/portfolio/city3.jpg" >
+      <q-parallax src="   " :height="600">
         <div class="glass-card text-center">
           <div class="text-h2 text-weight-bolder text-white">Find Your Dream Smart Home</div>
           <div class="text-h5 text-weight-light q-mt-md text-white">Exclusive properties in Abuja</div>

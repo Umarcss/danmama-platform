@@ -70,63 +70,98 @@
     </q-card>
 
     <!-- Request Modal -->
-    <q-dialog v-model="showRequestModal" persistent>
-      <q-card style="min-width: 500px">
-        <q-card-section>
-          <div class="text-h6 text-center">Submit Property Request</div>
-        </q-card-section>
-        <q-card-section class="q-pt-none">
-          <q-form @submit="submitRequest" class="q-gutter-md">
-            <q-input
-              filled
-              v-model="requestForm.clientName"
-              label="Your Name"
-              required
-              lazy-rules
-              :rules="[val => !!val || 'Name is required']"
-            />
-            <q-input
-              filled
-              v-model="requestForm.phoneNumber"
-              label="Phone Number"
-              required
-              lazy-rules
-              :rules="[val => !!val || 'Phone number is required']"
-            />
-            <q-select
-              filled
-              v-model="requestForm.request"
-              :options="['Built House', 'Land', 'Office Space', 'Shop', 'Filling Station']"
-              label="Property Type Needed"
-              required
-            />
-            <q-input
-              filled
-              v-model="requestForm.location"
-              label="Preferred Location"
-              placeholder="e.g., Wuse 2, Maitama, Any"
-            />
-            <q-input
-              filled
-              v-model="requestForm.budget"
-              label="Budget Range"
-              placeholder="e.g., 100-200M, 300M+"
-            />
-            <q-input
-              filled
-              type="textarea"
-              v-model="requestForm.specification"
-              label="Specific Requirements"
-              placeholder="Describe your specific needs..."
-              rows="3"
-            />
-            <div class="row justify-end q-mt-lg">
-              <q-btn flat label="Cancel" @click="closeRequestModal" class="q-mr-sm" />
-              <q-btn label="Submit Request" type="submit" color="secondary" />
-            </div>
-          </q-form>
-        </q-card-section>
-      </q-card>
+    <q-dialog v-model="showRequestModal" persistent maximized class="scrollable-modal">
+      <q-scroll-area style="height: 90vh; max-width: 100%;">
+        <q-card class="add-form-card" style="min-width: 600px; max-width: 800px; margin: 0 auto;">
+          <q-card-section>
+            <div class="text-h6">Submit Property Request</div>
+          </q-card-section>
+          <q-separator />
+          <q-card-section class="q-pa-md">
+            <q-form @submit="submitRequest" class="q-gutter-lg">
+              <!-- Form Sections Row -->
+              <div class="row q-gutter-md">
+                <!-- Left Column -->
+                <div class="col-12 col-md-6">
+                  <!-- Basic Information -->
+                  <div class="form-section">
+                    <div class="text-subtitle1 text-weight-medium text-primary q-mb-md">Contact Information</div>
+                    <q-input
+                      filled
+                      v-model="requestForm.clientName"
+                      label="Your Name *"
+                      required
+                      lazy-rules
+                      :rules="[val => !!val || 'Name is required']"
+                    />
+                    <q-input
+                      filled
+                      v-model="requestForm.phoneNumber"
+                      label="Phone Number *"
+                      required
+                      lazy-rules
+                      :rules="[val => !!val || 'Phone number is required']"
+                    />
+                  </div>
+
+                  <!-- Location Information -->
+                  <div class="form-section">
+                    <div class="text-subtitle1 text-weight-medium text-primary q-mb-md">Location Preferences</div>
+                    <q-select
+                      filled
+                      v-model="requestForm.request"
+                      :options="['Built House', 'Land', 'Office Space', 'Shop', 'Filling Station']"
+                      label="Property Type Needed *"
+                      required
+                      lazy-rules
+                      :rules="[val => !!val || 'Property type is required']"
+                    />
+                    <q-input
+                      filled
+                      v-model="requestForm.location"
+                      label="Preferred Location"
+                      placeholder="e.g., Wuse 2, Maitama, Any"
+                    />
+                  </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="col-12 col-md-6">
+                  <!-- Budget & Requirements -->
+                  <div class="form-section">
+                    <div class="text-subtitle1 text-weight-medium text-primary q-mb-md">Budget & Requirements</div>
+                    <q-input
+                      filled
+                      v-model="requestForm.budget"
+                      label="Budget Range"
+                      placeholder="e.g., 100-200M, 300M+"
+                    />
+                    <q-input
+                      filled
+                      type="textarea"
+                      v-model="requestForm.specification"
+                      label="Specific Requirements"
+                      placeholder="Describe your specific needs..."
+                      rows="6"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Form Actions -->
+              <div class="row justify-end q-mt-lg">
+                <q-btn flat label="Cancel" @click="closeRequestModal" />
+                <q-btn
+                  :label="'Submit Request'"
+                  color="secondary"
+                  class="q-ml-sm"
+                  type="submit"
+                />
+              </div>
+            </q-form>
+          </q-card-section>
+        </q-card>
+      </q-scroll-area>
     </q-dialog>
   </q-page>
 </template>
@@ -301,6 +336,51 @@ export default defineComponent({
 </script>
 
 <style scoped>
+/* Form Sections */
+.form-section {
+  padding: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.5);
+  margin-bottom: 16px;
+  height: fit-content;
+}
+
+.form-section .text-subtitle1 {
+  border-bottom: 2px solid #1976d2;
+  padding-bottom: 8px;
+  margin-bottom: 16px !important;
+}
+
+/* Add Form Card */
+.add-form-card {
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .form-section {
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+
+  .add-form-card {
+    min-width: 95vw !important;
+    max-width: 95vw !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .form-section {
+    min-height: 200px;
+  }
+}
+
+/* Table Styles */
 .modern-table {
   border-radius: 8px;
 }

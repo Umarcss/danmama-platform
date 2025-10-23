@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md">
+    <q-page class="q-pa-md">
     <!-- Header Section -->
     <div class="row justify-between items-center q-mb-xl">
       <div>
@@ -320,13 +320,13 @@
                     <div class="text-caption text-grey-5">{{ activity.time }}</div>
                   </div>
                 </div>
-              </div>
+        </div>
             </div>
           </q-card-section>
         </q-card>
+        </div>
       </div>
-    </div>
-  </q-page>
+    </q-page>
   </template>
   
   <script>
