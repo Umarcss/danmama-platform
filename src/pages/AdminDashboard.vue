@@ -310,14 +310,14 @@
   <script>
 import { defineComponent, ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-  import { useDataStore } from 'src/stores/data-store';
+import { useDataStore } from 'src/stores/data-store';
 import { useQuasar } from 'quasar';
   
   export default defineComponent({
     name: 'AdminDashboard',
     setup() {
     const router = useRouter();
-      const dataStore = useDataStore();
+    const dataStore = useDataStore();
     const $q = useQuasar();
 
     const loading = ref(false);

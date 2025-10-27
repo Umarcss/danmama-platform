@@ -1,6 +1,7 @@
 // src/stores/data-store.js
 import { defineStore } from 'pinia';
 import { mockApi } from 'src/services/mockApi';
+import { useLoadingStore } from './loading-store';
 
 export const useDataStore = defineStore('data', {
   state: () => ({
@@ -15,29 +16,44 @@ export const useDataStore = defineStore('data', {
 
   actions: {
     async fetchAllData() {
+      const loadingStore = useLoadingStore();
+      loadingStore.startLoading('fetchAllData', 'Loading Properties', 'Fetching all property data...');
       this.loading = true;
-      this.propertiesForSale = await mockApi.getPropertiesForSale();
-      this.listingsForRentals = await mockApi.getListingsForRentals();
-      this.listingsForLand = await mockApi.getListingsForLand();
-      this.propertyRequests = await mockApi.getPropertyRequests();
-      this.commercialRequests = await mockApi.getCommercialRequests();
-      this.commercialListings = await mockApi.getCommercialListings();
-      this.loading = false;
+      
+      try {
+        this.propertiesForSale = await mockApi.getPropertiesForSale();
+        this.listingsForRentals = await mockApi.getListingsForRentals();
+        this.listingsForLand = await mockApi.getListingsForLand();
+        this.propertyRequests = await mockApi.getPropertyRequests();
+        this.commercialRequests = await mockApi.getCommercialRequests();
+        this.commercialListings = await mockApi.getCommercialListings();
+      } finally {
+        this.loading = false;
+        loadingStore.stopLoading('fetchAllData');
+      }
     },
 
     async addNewItem(type, item) {
+      const loadingStore = useLoadingStore();
+      loadingStore.startLoading('addNewItem', 'Adding Property', 'Saving new property data...');
       this.loading = true;
-      let newItem;
-      switch (type) {
-        case 'properties': newItem = await mockApi.addPropertyForSale(item); this.propertiesForSale.push(newItem); break;
-        case 'rental': newItem = await mockApi.addListingForRental(item); this.listingsForRentals.push(newItem); break;
-        case 'land': newItem = await mockApi.addListingForLand(item); this.listingsForLand.push(newItem); break;
-        case 'property-requests': newItem = await mockApi.addPropertyRequest(item); this.propertyRequests.push(newItem); break;
-        case 'commercial-requests': newItem = await mockApi.addCommercialRequest(item); this.commercialRequests.push(newItem); break;
-        case 'commercial': newItem = await mockApi.addCommercialListing(item); this.commercialListings.push(newItem); break;
+      
+      try {
+        let newItem;
+        switch (type) {
+          case 'properties': newItem = await mockApi.addPropertyForSale(item); this.propertiesForSale.push(newItem); break;
+          case 'rental': newItem = await mockApi.addListingForRental(item); this.listingsForRentals.push(newItem); break;
+          case 'land': newItem = await mockApi.addListingForLand(item); this.listingsForLand.push(newItem); break;
+          case 'property-requests': newItem = await mockApi.addPropertyRequest(item); this.propertyRequests.push(newItem); break;
+          case 'commercial-requests': newItem = await mockApi.addCommercialRequest(item); this.commercialRequests.push(newItem); break;
+          case 'commercial': newItem = await mockApi.addCommercialListing(item); this.commercialListings.push(newItem); break;
+        }
+        this.loading = false;
+        return newItem;
+      } finally {
+        this.loading = false;
+        loadingStore.stopLoading('addNewItem');
       }
-      this.loading = false;
-      return newItem;
     },
 
     // --- NEW CRUD ACTIONS ---

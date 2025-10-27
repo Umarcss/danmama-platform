@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { mockApi } from 'src/services/mockApi';
+import { useLoadingStore } from './loading-store';
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -13,6 +14,9 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     async login(credentials) {
+      const loadingStore = useLoadingStore();
+      loadingStore.startLoading('login', 'Authenticating', 'Verifying your credentials...');
+      
       try {
         const response = await mockApi.login(credentials.username, credentials.password);
         if (response.success) {
@@ -24,6 +28,8 @@ export const useAuthStore = defineStore('auth', {
         }
       } catch {
         return { success: false, error: 'An unexpected error occurred.' };
+      } finally {
+        loadingStore.stopLoading('login');
       }
     },
 

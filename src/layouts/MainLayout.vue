@@ -174,6 +174,13 @@
     <!-- Login Modal Component -->
     <LoginModal v-model="showLoginModal" />
 
+    <!-- Global Loader -->
+    <GlobalLoader 
+      :loading="loadingStore.isLoading"
+      :message="loadingStore.loadingMessage"
+      :sub-message="loadingStore.loadingSubMessage"
+    />
+
   </q-layout>
 </template>
 
@@ -181,16 +188,19 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from 'src/stores/auth-store';
+import { useLoadingStore } from 'src/stores/loading-store';
 import LoginModal from 'src/components/LoginModal.vue';
+import GlobalLoader from 'src/components/GlobalLoader.vue';
 
 export default {
   name: 'MainLayout',
-  components: { LoginModal },
+  components: { LoginModal, GlobalLoader },
   setup () {
     const router = useRouter()
     const leftDrawerOpen = ref(false)
     const showLoginModal = ref(false);
     const authStore = useAuthStore();
+    const loadingStore = useLoadingStore();
 
     // A computed property to check authentication status
     const isAuthenticated = computed(() => authStore.isAuthenticated);
@@ -204,6 +214,7 @@ export default {
       leftDrawerOpen,
       showLoginModal,
       isAuthenticated,
+      loadingStore,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
       },

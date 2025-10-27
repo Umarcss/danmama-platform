@@ -25,19 +25,30 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import PropertyCard from 'components/PropertyCard.vue'
+import { useLoadingStore } from 'src/stores/loading-store'
 
 export default defineComponent({
   name: 'PageIndex',
   components: { PropertyCard },
   setup () {
+    const loadingStore = useLoadingStore();
+    
     // We will replace this with real data later
     const featuredProperties = ref([
       { id: 1, name: 'Luxury Villa in Asokoro', price: 'N4.5 Billion', location: 'Asokoro, Abuja', image: 'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=2070' },
       { id: 2, name: 'Modern Duplex in Maitama', price: 'N850 Million', location: 'Maitama, Abuja', image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2070' },
       { id: 3, name: 'Penthouse at Wuse 2', price: 'N350 Million', location: 'Wuse 2, Abuja', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070' }
     ])
+
+    // Simulate loading on page mount
+    onMounted(() => {
+      loadingStore.startLoading('pageLoad', 'Loading Properties', 'Fetching featured properties...');
+      setTimeout(() => {
+        loadingStore.stopLoading('pageLoad');
+      }, 1500);
+    });
 
     return { featuredProperties }
   }
