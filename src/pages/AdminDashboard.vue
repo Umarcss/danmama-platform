@@ -824,10 +824,17 @@ import { useQuasar } from 'quasar';
 
   .stat-number {
     font-size: 2rem;
+    font-weight: 600;
   }
 
   .stat-label {
     font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .stat-trend {
+    font-size: 0.8rem;
+    font-weight: 400;
   }
 
   .action-content {
@@ -839,15 +846,79 @@ import { useQuasar } from 'quasar';
     margin-right: 0;
     margin-bottom: 8px;
   }
+
+  /* Reduce padding on mobile */
+  .q-pa-lg {
+    padding: 12px !important;
+  }
+
+  .q-mb-xl {
+    margin-bottom: 16px !important;
+  }
+
+  .q-mb-lg {
+    margin-bottom: 12px !important;
+  }
 }
 
 @media (max-width: 480px) {
   .stat-number {
     font-size: 1.75rem;
+    font-weight: 600;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .stat-trend {
+    font-size: 0.75rem;
+    font-weight: 400;
   }
 
   .action-btn {
     padding: 12px;
+  }
+
+  .stat-icon-wrapper {
+    width: 48px;
+    height: 48px;
+  }
+
+  /* Further reduce padding on small screens */
+  .q-pa-lg {
+    padding: 8px !important;
+  }
+
+  .q-mb-xl {
+    margin-bottom: 12px !important;
+  }
+
+  .q-mb-lg {
+    margin-bottom: 8px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .stat-number {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .stat-trend {
+    font-size: 0.7rem;
+    font-weight: 400;
+  }
+
+  .stat-icon-wrapper {
+    width: 44px;
+    height: 44px;
   }
 }
 </style>

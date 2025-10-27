@@ -4,3 +4,193 @@
 body {
   font-family: 'Montserrat', 'Roboto', 'Helvetica', 'Arial', sans-serif;
 }
+
+/* Mobile Responsive Text Sizing */
+/* Reduce font sizes and weights on mobile devices for better readability */
+
+/* Tablet and smaller screens */
+@media (max-width: 768px) {
+  /* Headings */
+  .text-h1 {
+    font-size: 1.75rem !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+  }
+  
+  .text-h2 {
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+  }
+  
+  .text-h3 {
+    font-size: 1.375rem !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+  }
+  
+  .text-h4 {
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+  }
+  
+  .text-h5 {
+    font-size: 1.125rem !important;
+    font-weight: 500 !important;
+    line-height: 1.4 !important;
+  }
+  
+  .text-h6 {
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    line-height: 1.4 !important;
+  }
+  
+  /* Subtitles */
+  .text-subtitle1 {
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    line-height: 1.4 !important;
+  }
+  
+  .text-subtitle2 {
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+    line-height: 1.4 !important;
+  }
+  
+  /* Body text */
+  .text-body1 {
+    font-size: 0.9rem !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+  }
+  
+  .text-body2 {
+    font-size: 0.85rem !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+  }
+  
+  /* Caption text */
+  .text-caption {
+    font-size: 0.75rem !important;
+    font-weight: 400 !important;
+    line-height: 1.4 !important;
+  }
+  
+  /* Overline text */
+  .text-overline {
+    font-size: 0.7rem !important;
+    font-weight: 500 !important;
+    line-height: 1.4 !important;
+  }
+}
+
+/* Small mobile screens */
+@media (max-width: 480px) {
+  /* Further reduce font sizes for very small screens */
+  .text-h1 {
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+  }
+  
+  .text-h2 {
+    font-size: 1.375rem !important;
+    font-weight: 600 !important;
+  }
+  
+  .text-h3 {
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+  }
+  
+  .text-h4 {
+    font-size: 1.125rem !important;
+    font-weight: 500 !important;
+  }
+  
+  .text-h5 {
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+  }
+  
+  .text-h6 {
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+  }
+  
+  .text-subtitle1 {
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+  }
+  
+  .text-subtitle2 {
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+  }
+  
+  .text-body1 {
+    font-size: 0.85rem !important;
+    font-weight: 400 !important;
+  }
+  
+  .text-body2 {
+    font-size: 0.8rem !important;
+    font-weight: 400 !important;
+  }
+  
+  .text-caption {
+    font-size: 0.7rem !important;
+    font-weight: 400 !important;
+  }
+  
+  .text-overline {
+    font-size: 0.65rem !important;
+    font-weight: 500 !important;
+  }
+}
+
+/* Extra small screens (very small phones) */
+@media (max-width: 360px) {
+  .text-h1 {
+    font-size: 1.375rem !important;
+  }
+  
+  .text-h2 {
+    font-size: 1.25rem !important;
+  }
+  
+  .text-h3 {
+    font-size: 1.125rem !important;
+  }
+  
+  .text-h4 {
+    font-size: 1rem !important;
+  }
+  
+  .text-h5 {
+    font-size: 0.9rem !important;
+  }
+  
+  .text-h6 {
+    font-size: 0.85rem !important;
+  }
+  
+  .text-subtitle1 {
+    font-size: 0.8rem !important;
+  }
+  
+  .text-subtitle2 {
+    font-size: 0.75rem !important;
+  }
+  
+  .text-body1 {
+    font-size: 0.8rem !important;
+  }
+  
+  .text-body2 {
+    font-size: 0.75rem !important;
+  }
+}

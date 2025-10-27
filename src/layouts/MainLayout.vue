@@ -11,7 +11,10 @@
           <q-img src="~assets/logo.png" style="height: 40px; max-width: 180px; object-fit: contain;" />
         </q-toolbar-title>
 
-        <h6>Property Management Department</h6>
+        <!-- Department Title - Only visible on desktop, centered -->
+        <div class="gt-sm" style="flex: 1; text-align: center;">
+          <h6>Property Management Department</h6>
+        </div>
 
         <!-- Desktop Navigation -->
         <div class="q-pa-sm q-gutter-sm gt-xs">
@@ -191,14 +194,14 @@ export default {
 
 
 h6 {
-    font-size: 1.30rem;
+    font-size: 1rem;
     font-weight: 500;
-    line-height: 2rem;
+    line-height: 1.2;
     letter-spacing: 0.0125em;
-    padding-right: 105px;
-    font-weight: bolder;
     font-family: inherit;
-
+    white-space: nowrap;
+    margin: 0;
+    padding: 0;
 }
 /* Glassmorphism for dropdown menus */
 .q-btn-dropdown .q-menu {
