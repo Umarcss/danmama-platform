@@ -84,28 +84,6 @@
           </q-card-section>
         </q-card>
       </div>
-
-      <div class="analytics-item">
-        <q-card class="analytics-card portfolio-value-card">
-          <q-card-section class="q-pa-lg">
-            <div class="row items-center no-wrap">
-              <div class="col-auto">
-                <div class="stat-icon-wrapper portfolio-value-bg">
-                  <q-icon name="attach_money" size="2.5rem" color="white" />
-                </div>
-              </div>
-              <div class="col q-ml-md">
-                <div class="stat-number">{{ formatCurrency(totalValue) }}</div>
-                <div class="stat-label">Portfolio Value</div>
-                <div class="stat-trend positive">
-                  <q-icon name="trending_up" />
-                  <span>Estimated value</span>
-                </div>
-              </div>
-            </div>
-          </q-card-section>
-        </q-card>
-      </div>
     </div>
 
     <!-- Property Analytics -->
@@ -370,10 +348,6 @@ import { useQuasar } from 'quasar';
       dataStore.propertyRequests.length + dataStore.commercialRequests.length
     );
 
-    const totalValue = computed(() => {
-      // Calculate approximate portfolio value (simplified)
-      return totalProperties.value * 150000000; // Average property value estimate
-    });
 
     // Status counts for chart
     const statusCounts = computed(() => ({
@@ -544,7 +518,6 @@ import { useQuasar } from 'quasar';
       activeListings,
       activePercentage,
       totalRequests,
-      totalValue,
       statusCounts,
       recentPropertyRequests,
 
@@ -624,9 +597,6 @@ import { useQuasar } from 'quasar';
   background: linear-gradient(90deg, #FF9800 0%, #FFB74D 100%);
 }
 
-.portfolio-value-card::before {
-  background: linear-gradient(90deg, #9C27B0 0%, #BA68C8 100%);
-}
 
 .quick-actions-card::before {
   background: linear-gradient(90deg, #FF5722 0%, #FF8A65 100%);
@@ -668,9 +638,6 @@ import { useQuasar } from 'quasar';
   background: linear-gradient(135deg, #FF9800 0%, #FFB74D 100%);
 }
 
-.portfolio-value-bg {
-  background: linear-gradient(135deg, #9C27B0 0%, #BA68C8 100%);
-}
 
 .stat-icon-wrapper:hover {
   transform: scale(1.05);
