@@ -12,6 +12,16 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Young Serif', serif !important;
 }
 
+/* All Text Elements - Young Serif */
+.text-subtitle1, .text-subtitle2, .text-body1, .text-body2, 
+.text-caption, .text-overline, .text-weight-light, .text-weight-normal,
+.text-weight-medium, .text-weight-bold, .text-weight-bolder,
+.q-item-label, .q-btn, .q-input, .q-field, .q-card-section,
+.q-toolbar-title, .q-drawer, .q-list, .q-menu, .q-dialog,
+body, p, span, div, a, label, input, textarea, select, button {
+  font-family: 'Young Serif', serif !important;
+}
+
 /* Mobile Responsive Text Sizing */
 /* Reduce font sizes and weights on mobile devices for better readability */
 
@@ -65,12 +75,14 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 0.9rem !important;
     font-weight: 500 !important;
     line-height: 1.4 !important;
+    font-family: 'Young Serif', serif !important;
   }
   
   .text-subtitle2 {
     font-size: 0.85rem !important;
     font-weight: 500 !important;
     line-height: 1.4 !important;
+    font-family: 'Young Serif', serif !important;
   }
   
   /* Body text */
@@ -78,12 +90,14 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 0.9rem !important;
     font-weight: 400 !important;
     line-height: 1.5 !important;
+    font-family: 'Young Serif', serif !important;
   }
   
   .text-body2 {
     font-size: 0.85rem !important;
     font-weight: 400 !important;
     line-height: 1.5 !important;
+    font-family: 'Young Serif', serif !important;
   }
   
   /* Caption text */
@@ -91,6 +105,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 0.75rem !important;
     font-weight: 400 !important;
     line-height: 1.4 !important;
+    font-family: 'Young Serif', serif !important;
   }
   
   /* Overline text */
@@ -98,6 +113,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 0.7rem !important;
     font-weight: 500 !important;
     line-height: 1.4 !important;
+    font-family: 'Young Serif', serif !important;
   }
 
   /* Mobile Button Sizing */
@@ -177,31 +193,37 @@ h1, h2, h3, h4, h5, h6 {
   .text-subtitle1 {
     font-size: 0.85rem !important;
     font-weight: 500 !important;
+    font-family: 'Young Serif', serif !important;
   }
   
   .text-subtitle2 {
     font-size: 0.8rem !important;
     font-weight: 500 !important;
+    font-family: 'Young Serif', serif !important;
   }
   
   .text-body1 {
     font-size: 0.85rem !important;
     font-weight: 400 !important;
+    font-family: 'Young Serif', serif !important;
   }
   
   .text-body2 {
     font-size: 0.8rem !important;
     font-weight: 400 !important;
+    font-family: 'Young Serif', serif !important;
   }
   
   .text-caption {
     font-size: 0.7rem !important;
     font-weight: 400 !important;
+    font-family: 'Young Serif', serif !important;
   }
   
   .text-overline {
     font-size: 0.65rem !important;
     font-weight: 500 !important;
+    font-family: 'Young Serif', serif !important;
   }
 
   /* Smaller buttons for small mobile */
@@ -273,18 +295,22 @@ h1, h2, h3, h4, h5, h6 {
   
   .text-subtitle1 {
     font-size: 0.8rem !important;
+    font-family: 'Young Serif', serif !important;
   }
   
   .text-subtitle2 {
     font-size: 0.75rem !important;
+    font-family: 'Young Serif', serif !important;
   }
   
   .text-body1 {
     font-size: 0.8rem !important;
+    font-family: 'Young Serif', serif !important;
   }
   
   .text-body2 {
     font-size: 0.75rem !important;
+    font-family: 'Young Serif', serif !important;
   }
 
   /* Extra small buttons for very small phones */
