@@ -138,6 +138,31 @@
             <q-item-label>Commercial Inquiries</q-item-label>
           </q-item-section>
         </q-item>
+
+        <q-separator />
+
+        <!-- Authentication Section -->
+        <q-item-label header>Account</q-item-label>
+        
+        <!-- Login Button (when not authenticated) -->
+        <q-item v-if="!isAuthenticated" clickable @click="showLoginModal = true">
+          <q-item-section avatar>
+            <q-icon name="login" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Login</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <!-- Logout Button (when authenticated) -->
+        <q-item v-if="isAuthenticated" clickable @click="handleLogout">
+          <q-item-section avatar>
+            <q-icon name="logout" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Logout</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
