@@ -1,6 +1,6 @@
 <template>
     <q-dialog v-model="isOpen" persistent>
-      <q-card class="login-modal" style="min-width: 400px">
+      <q-card class="login-modal">
         <q-card-section>
           <div class="text-h6 text-primary text-weight-bold">Admin Login</div>
         </q-card-section>
@@ -80,5 +80,103 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 16px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    min-width: 320px;
+    max-width: 400px;
+    width: 100%;
+  }
+
+  /* Mobile responsive adjustments */
+  @media (max-width: 768px) {
+    .login-modal {
+      min-width: unset;
+      max-width: 95vw;
+      width: 100%;
+      margin: 16px;
+      border-radius: 12px;
+    }
+
+    .login-modal .q-card-section {
+      padding: 16px;
+    }
+
+    .login-modal .text-h6 {
+      font-size: 1.125rem !important;
+      font-weight: 600 !important;
+    }
+
+    .login-modal .q-input {
+      font-size: 0.9rem;
+    }
+
+    .login-modal .q-btn {
+      font-size: 0.9rem;
+      padding: 8px 16px;
+    }
+
+    .login-modal .row {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .login-modal .q-btn.q-ml-sm {
+      margin-left: 0 !important;
+      margin-top: 8px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .login-modal {
+      margin: 8px;
+      max-width: calc(100vw - 16px);
+      border-radius: 8px;
+    }
+
+    .login-modal .q-card-section {
+      padding: 12px;
+    }
+
+    .login-modal .text-h6 {
+      font-size: 1rem !important;
+      font-weight: 600 !important;
+    }
+
+    .login-modal .q-input {
+      font-size: 0.85rem;
+    }
+
+    .login-modal .q-btn {
+      font-size: 0.85rem;
+      padding: 6px 12px;
+    }
+
+    .login-modal .q-gutter-md {
+      gap: 12px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .login-modal {
+      margin: 4px;
+      max-width: calc(100vw - 8px);
+      border-radius: 6px;
+    }
+
+    .login-modal .q-card-section {
+      padding: 8px;
+    }
+
+    .login-modal .text-h6 {
+      font-size: 0.9rem !important;
+      font-weight: 600 !important;
+    }
+
+    .login-modal .q-input {
+      font-size: 0.8rem;
+    }
+
+    .login-modal .q-btn {
+      font-size: 0.8rem;
+      padding: 4px 8px;
+    }
   }
   </style>
