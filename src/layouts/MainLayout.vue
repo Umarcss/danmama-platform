@@ -8,7 +8,7 @@
 
         <!-- Logo -->
         <q-toolbar-title class="q-py-md">
-          <q-img src="~assets/logo.png" style="height: 40px; max-width: 180px; object-fit: contain;" />
+          <q-img src="~assets/logo.png" style="height: 40px; max-width: 100px;" />
         </q-toolbar-title>
 
         <!-- Department Title - Only visible on desktop, centered -->
