@@ -647,25 +647,33 @@ export default defineComponent({
     };
 
     // CRUD operations
+    const saving = ref(false);
     const handleSave = async (formData) => {
+      // Prevent double submission
+      if (saving.value) {
+        return;
+      }
+      saving.value = true;
       try {
         if (itemToEdit.value) {
           await dataStore.updateItem('commercialListings', itemToEdit.value.id, formData);
           $q.notify({
             type: 'positive',
             message: 'Commercial listing updated successfully!',
-            position: 'top'
+            position: 'top',
+            timeout: 3000
           });
         } else {
           await dataStore.addNewItem('commercialListings', formData);
           $q.notify({
             type: 'positive',
             message: 'Commercial listing added successfully!',
-            position: 'top'
+            position: 'top',
+            timeout: 3000
           });
         }
         closeForm();
-        await refreshData();
+        // Don't need refreshData() - addNewItem already calls fetchAllData()
       } catch (error) {
         console.error('Error saving commercial listing:', error);
         $q.notify({
@@ -674,6 +682,8 @@ export default defineComponent({
           position: 'top',
           timeout: 3000
         });
+      } finally {
+        saving.value = false;
       }
     };
 
@@ -743,6 +753,7 @@ export default defineComponent({
       selectedCommercial,
       itemToEdit,
       itemToDelete,
+      saving,
 
       // Table
       pagination,

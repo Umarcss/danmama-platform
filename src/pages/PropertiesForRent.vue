@@ -628,25 +628,33 @@ export default defineComponent({
     };
 
     // CRUD operations
+    const saving = ref(false);
     const handleSave = async (formData) => {
+      // Prevent double submission
+      if (saving.value) {
+        return;
+      }
+      saving.value = true;
       try {
         if (itemToEdit.value) {
           await dataStore.updateItem('listingsForRentals', itemToEdit.value.id, formData);
           $q.notify({
             type: 'positive',
             message: 'Rental property updated successfully!',
-            position: 'top'
+            position: 'top',
+            timeout: 3000
           });
         } else {
           await dataStore.addNewItem('listingsForRentals', formData);
           $q.notify({
             type: 'positive',
             message: 'Rental property added successfully!',
-            position: 'top'
+            position: 'top',
+            timeout: 3000
           });
         }
         closeForm();
-        await refreshData();
+        // Don't need refreshData() - addNewItem already calls fetchAllData()
       } catch (error) {
         console.error('Error saving rental property:', error);
         $q.notify({
@@ -655,6 +663,8 @@ export default defineComponent({
           position: 'top',
           timeout: 3000
         });
+      } finally {
+        saving.value = false;
       }
     };
 
@@ -724,6 +734,7 @@ export default defineComponent({
       selectedProperty,
       itemToEdit,
       itemToDelete,
+      saving,
 
       // Table
       pagination,

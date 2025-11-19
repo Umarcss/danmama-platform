@@ -40,41 +40,41 @@ export const useDataStore = defineStore('data', {
       
       try {
         let newItem;
+        
         switch (type) {
           case 'properties':
           case 'properties-for-sale':
             newItem = await mockApi.addPropertyForSale(item);
-            this.propertiesForSale.push(newItem);
             break;
           case 'rental':
           case 'listingsForRentals':
           case 'listings-for-rentals':
             newItem = await mockApi.addListingForRental(item);
-            this.listingsForRentals.push(newItem);
             break;
           case 'land':
           case 'listingsForLand':
           case 'listings-for-land':
             newItem = await mockApi.addListingForLand(item);
-            this.listingsForLand.push(newItem);
             break;
           case 'property-requests':
             newItem = await mockApi.addPropertyRequest(item);
-            this.propertyRequests.push(newItem);
             break;
           case 'commercial-requests':
             newItem = await mockApi.addCommercialRequest(item);
-            this.commercialRequests.push(newItem);
             break;
           case 'commercial':
           case 'commercialListings':
           case 'commercial-listings':
             newItem = await mockApi.addCommercialListing(item);
-            this.commercialListings.push(newItem);
             break;
           default:
             throw new Error(`Unknown type: ${type}`);
         }
+        
+        // Don't manually push - let refreshData handle it to avoid duplicates
+        // Just refresh from API to get the latest state
+        await this.fetchAllData();
+        
         return newItem;
       } finally {
         this.loading = false;

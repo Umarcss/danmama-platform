@@ -639,31 +639,43 @@ export default defineComponent({
     };
 
     // CRUD operations
+    const saving = ref(false);
     const handleSave = async (formData) => {
+      // Prevent double submission
+      if (saving.value) {
+        return;
+      }
+      saving.value = true;
       try {
         if (itemToEdit.value) {
           await dataStore.updateItem('listingsForLand', itemToEdit.value.id, formData);
           $q.notify({
             type: 'positive',
             message: 'Land listing updated successfully!',
-            position: 'top'
+            position: 'top',
+            timeout: 3000
           });
         } else {
           await dataStore.addNewItem('listingsForLand', formData);
           $q.notify({
             type: 'positive',
             message: 'Land listing added successfully!',
-            position: 'top'
+            position: 'top',
+            timeout: 3000
           });
         }
         closeForm();
-        await refreshData();
-      } catch {
+        // Don't need refreshData() - addNewItem already calls fetchAllData()
+      } catch (error) {
+        console.error('Error saving land listing:', error);
         $q.notify({
           type: 'negative',
           message: 'Failed to save land listing. Please try again.',
-          position: 'top'
+          position: 'top',
+          timeout: 3000
         });
+      } finally {
+        saving.value = false;
       }
     };
 
@@ -731,6 +743,7 @@ export default defineComponent({
       selectedLand,
       itemToEdit,
       itemToDelete,
+      saving,
 
       // Table
       pagination,

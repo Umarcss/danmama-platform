@@ -104,7 +104,13 @@ export const mockApi = {
   
   async addPropertyForSale(property) { 
     await delay(300); 
-    property.id = Date.now(); 
+    // Generate unique ID using timestamp + random to prevent duplicates
+    let newId = Date.now() + Math.random();
+    // Ensure ID is unique
+    while (propertiesForSale.findIndex(p => p.id === newId) !== -1) {
+      newId = Date.now() + Math.random();
+    }
+    property.id = newId; 
     // Ensure images array and primaryImage exist
     if (!property.images) property.images = [];
     if (property.primaryImage === undefined) property.primaryImage = property.images.length > 0 ? 0 : null;
@@ -143,7 +149,13 @@ export const mockApi = {
   
   async addListingForLand(land) { 
     await delay(300); 
-    land.id = Date.now(); 
+    // Generate unique ID using timestamp + random to prevent duplicates
+    let newId = Date.now() + Math.random();
+    // Ensure ID is unique
+    while (listingsForLand.findIndex(l => l.id === newId) !== -1) {
+      newId = Date.now() + Math.random();
+    }
+    land.id = newId; 
     listingsForLand.push(land);
     saveToStorage(STORAGE_KEYS.LISTINGS_FOR_LAND, listingsForLand);
     return land; 
@@ -179,7 +191,13 @@ export const mockApi = {
   
   async addPropertyRequest(request) { 
     await delay(300); 
-    request.id = Date.now(); 
+    // Generate unique ID using timestamp + random to prevent duplicates
+    let newId = Date.now() + Math.random();
+    // Ensure ID is unique
+    while (propertyRequests.findIndex(r => r.id === newId) !== -1) {
+      newId = Date.now() + Math.random();
+    }
+    request.id = newId; 
     propertyRequests.push(request);
     saveToStorage(STORAGE_KEYS.PROPERTY_REQUESTS, propertyRequests);
     return request; 
@@ -215,7 +233,13 @@ export const mockApi = {
   
   async addListingForRental(rental) { 
     await delay(300); 
-    rental.id = Date.now(); 
+    // Generate unique ID using timestamp + random to prevent duplicates
+    let newId = Date.now() + Math.random();
+    // Ensure ID is unique
+    while (listingsForRentals.findIndex(r => r.id === newId) !== -1) {
+      newId = Date.now() + Math.random();
+    }
+    rental.id = newId; 
     // Ensure images array and primaryImage exist
     if (!rental.images) rental.images = [];
     if (rental.primaryImage === undefined) rental.primaryImage = rental.images.length > 0 ? 0 : null;
@@ -254,7 +278,13 @@ export const mockApi = {
   
   async addCommercialRequest(request) { 
     await delay(300); 
-    request.id = Date.now(); 
+    // Generate unique ID using timestamp + random to prevent duplicates
+    let newId = Date.now() + Math.random();
+    // Ensure ID is unique
+    while (commercialRequests.findIndex(r => r.id === newId) !== -1) {
+      newId = Date.now() + Math.random();
+    }
+    request.id = newId; 
     commercialRequests.push(request);
     saveToStorage(STORAGE_KEYS.COMMERCIAL_REQUESTS, commercialRequests);
     return request; 
@@ -290,7 +320,13 @@ export const mockApi = {
   
   async addCommercialListing(listing) { 
     await delay(300); 
-    listing.id = Date.now(); 
+    // Generate unique ID using timestamp + random to prevent duplicates
+    let newId = Date.now() + Math.random();
+    // Ensure ID is unique
+    while (commercialListings.findIndex(l => l.id === newId) !== -1) {
+      newId = Date.now() + Math.random();
+    }
+    listing.id = newId; 
     // Ensure images array and primaryImage exist
     if (!listing.images) listing.images = [];
     if (listing.primaryImage === undefined) listing.primaryImage = listing.images.length > 0 ? 0 : null;

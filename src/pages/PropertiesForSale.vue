@@ -666,25 +666,33 @@ export default defineComponent({
       itemToEdit.value = null;
     };
 
+    const saving = ref(false);
     const handleSave = async (formData) => {
+      // Prevent double submission
+      if (saving.value) {
+        return;
+      }
+      saving.value = true;
       try {
         if (itemToEdit.value) {
           await dataStore.updateItem('properties', itemToEdit.value.id, formData);
           $q.notify({
             type: 'positive',
             message: 'Property updated successfully!',
-            position: 'top'
+            position: 'top',
+            timeout: 3000
           });
         } else {
           await dataStore.addNewItem('properties', formData);
           $q.notify({
             type: 'positive',
             message: 'Property added successfully!',
-            position: 'top'
+            position: 'top',
+            timeout: 3000
           });
         }
         closeForm();
-        await refreshData();
+        // Don't need refreshData() - addNewItem already calls fetchAllData()
       } catch (error) {
         console.error('Error saving property:', error);
         $q.notify({
@@ -693,6 +701,8 @@ export default defineComponent({
           position: 'top',
           timeout: 3000
         });
+      } finally {
+        saving.value = false;
       }
     };
 
@@ -776,6 +786,7 @@ export default defineComponent({
       itemToEdit,
       itemToDelete,
       selectedProperty,
+      saving,
 
       // Table config
       columns,
