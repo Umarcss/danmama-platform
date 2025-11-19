@@ -685,11 +685,13 @@ export default defineComponent({
         }
         closeForm();
         await refreshData();
-      } catch {
+      } catch (error) {
+        console.error('Error saving property:', error);
         $q.notify({
           type: 'negative',
           message: 'Failed to save property. Please try again.',
-          position: 'top'
+          position: 'top',
+          timeout: 3000
         });
       }
     };
@@ -714,11 +716,13 @@ export default defineComponent({
         });
         cancelDelete();
         await refreshData();
-      } catch {
+      } catch (error) {
+        console.error('Error deleting property:', error);
         $q.notify({
           type: 'negative',
           message: 'Failed to delete property. Please try again.',
-          position: 'top'
+          position: 'top',
+          timeout: 3000
         });
       }
     };

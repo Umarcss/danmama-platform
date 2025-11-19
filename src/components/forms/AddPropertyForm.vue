@@ -5,7 +5,7 @@
       </q-card-section>
       <q-separator />
       <q-card-section class="q-pa-md">
-        <q-form @submit="onSubmit" class="q-gutter-lg">
+        <q-form @submit.prevent="onSubmit" class="q-gutter-lg">
           <!-- Form Sections Row -->
           <div class="row q-gutter-md">
             <!-- Left Column -->
@@ -118,8 +118,8 @@
           </div>
 
           <div class="row justify-end q-mt-lg">
-            <q-btn flat label="Cancel" @click="$emit('close')" />
-            <q-btn :label="isEditing ? 'Update' : 'Save'" color="secondary" class="q-ml-sm" :loading="loading" @click="onSubmit" />
+            <q-btn flat label="Cancel" @click="$emit('close')" type="button" />
+            <q-btn :label="isEditing ? 'Update' : 'Save'" color="secondary" class="q-ml-sm" :loading="loading" type="submit" />
           </div>
         </q-form>
       </q-card-section>
@@ -128,6 +128,7 @@
   
   <script>
   import { defineComponent, reactive, computed, watch, ref } from 'vue';
+  import { useQuasar, Dialog } from 'quasar';
   import ImageUploader from './ImageUploader.vue';
 
   export default defineComponent({
@@ -144,6 +145,7 @@
     },
     emits: ['save', 'close'],
     setup(props, { emit }) {
+      const $q = useQuasar();
       const isEditing = computed(() => !!props.itemToEdit);
       const loading = ref(false);
 
@@ -209,17 +211,51 @@
       }, { immediate: true });
 
       const onSubmit = async () => {
+        // Prevent double submission
+        if (loading.value) {
+          return;
+        }
         loading.value = true;
         try {
           // Basic validation
-          if (!form.name.trim() || !form.type.trim() || !form.price.trim() || !form.city.trim() || !form.address.trim() || !form.agentName.trim() || !form.agentNumber.trim()) {
-            throw new Error('Please fill in all required fields marked with *');
+          const missingFields = [];
+          if (!form.name.trim()) missingFields.push('Property Name');
+          if (!form.type.trim()) missingFields.push('Property Type');
+          if (!form.price.trim()) missingFields.push('Price');
+          if (!form.city.trim()) missingFields.push('City');
+          if (!form.address.trim()) missingFields.push('Address');
+          if (!form.agentName.trim()) missingFields.push('Agent Name');
+          if (!form.agentNumber.trim()) missingFields.push('Agent Number');
+
+          if (missingFields.length > 0) {
+            throw new Error(`Please fill in: ${missingFields.join(', ')}`);
+          }
+
+          // Validate images (optional but recommended)
+          if (!form.images || form.images.length === 0) {
+            const confirmed = await new Promise((resolve) => {
+              Dialog.create({
+                title: 'No Images',
+                message: 'You haven\'t added any images. Do you want to continue without images?',
+                cancel: true,
+                persistent: true
+              }).onOk(() => resolve(true)).onCancel(() => resolve(false));
+            });
+            if (!confirmed) {
+              loading.value = false;
+              return;
+            }
           }
 
           emit('save', { ...form });
         } catch (error) {
           console.error('Form validation error:', error);
-          // You might want to show a notification here
+          $q.notify({
+            type: 'negative',
+            message: error.message || 'Please fill in all required fields',
+            position: 'top',
+            timeout: 3000
+          });
         } finally {
           loading.value = false;
         }

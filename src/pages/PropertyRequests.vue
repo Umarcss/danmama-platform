@@ -210,7 +210,7 @@
           </q-card-section>
           <q-separator />
           <q-card-section class="q-pa-md">
-            <q-form @submit="handleSave" class="q-gutter-lg">
+            <q-form @submit.prevent="handleSave" class="q-gutter-lg">
               <!-- Form Sections Row -->
               <div class="row q-gutter-md">
                 <!-- Left Column -->
@@ -317,12 +317,13 @@
 
               <!-- Form Actions -->
               <div class="row justify-end q-mt-lg">
-                <q-btn flat label="Cancel" @click="closeRequestModal" />
+                <q-btn flat label="Cancel" @click="closeRequestModal" type="button" />
                 <q-btn
                   :label="itemToEdit ? 'Update Request' : 'Submit Request'"
                   color="secondary"
                   class="q-ml-sm"
                   type="submit"
+                  :loading="saving"
                 />
               </div>
             </q-form>
@@ -697,7 +698,13 @@ export default defineComponent({
       showRequestModal.value = true;
     };
 
+    const saving = ref(false);
     const handleSave = async () => {
+      // Prevent double submission
+      if (saving.value) {
+        return;
+      }
+      saving.value = true;
       try {
         if (itemToEdit.value) {
           // Update existing item
@@ -705,7 +712,8 @@ export default defineComponent({
           $q.notify({
             type: 'positive',
             message: 'Property request updated successfully!',
-            position: 'top'
+            position: 'top',
+            timeout: 3000
           });
         } else {
           // Create new item
@@ -713,7 +721,8 @@ export default defineComponent({
           $q.notify({
             type: 'positive',
             message: 'Property request added successfully!',
-            position: 'top'
+            position: 'top',
+            timeout: 3000
           });
         }
         closeRequestModal();
@@ -722,8 +731,11 @@ export default defineComponent({
         $q.notify({
           type: 'negative',
           message: 'Failed to save property request. Please try again.',
-          position: 'top'
+          position: 'top',
+          timeout: 3000
         });
+      } finally {
+        saving.value = false;
       }
     };
 
@@ -860,6 +872,7 @@ export default defineComponent({
       itemToEdit,
       itemToDelete,
       deleting,
+      saving,
 
       // Form
       requestForm,

@@ -180,18 +180,30 @@ export default defineComponent({
       uploadProgress.value = 0;
 
       try {
+        let successCount = 0;
+        let errorCount = 0;
+        const errors = [];
+
         for (let i = 0; i < fileArray.length; i++) {
           const file = fileArray[i];
           const validationError = validateFile(file);
 
           if (validationError) {
-            errorMessage.value = validationError;
+            errors.push(`${file.name}: ${validationError}`);
+            errorCount++;
             continue;
           }
 
-          uploadProgress.value = ((i + 1) / fileArray.length) * 100;
-          const base64 = await convertToBase64(file);
-          images.value.push(base64);
+          try {
+            uploadProgress.value = ((i + 1) / fileArray.length) * 100;
+            const base64 = await convertToBase64(file);
+            images.value.push(base64);
+            successCount++;
+          } catch (fileError) {
+            errors.push(`${file.name}: Failed to process image`);
+            errorCount++;
+            console.error('File processing error:', fileError);
+          }
         }
 
         // Set first image as primary if no primary is set
@@ -204,9 +216,38 @@ export default defineComponent({
         if (primaryImage.value !== null) {
           emit('update:primaryImageIndex', primaryImage.value);
         }
+
+        // Show success/error feedback
+        if (successCount > 0 && errorCount === 0) {
+          errorMessage.value = '';
+          $q.notify({
+            type: 'positive',
+            message: `Successfully uploaded ${successCount} image(s)`,
+            position: 'top',
+            timeout: 2000
+          });
+        } else if (errorCount > 0) {
+          errorMessage.value = errors.length > 0 
+            ? `${errorCount} image(s) failed: ${errors[0]}${errors.length > 1 ? '...' : ''}`
+            : `${errorCount} image(s) failed to upload`;
+          if (successCount > 0) {
+            $q.notify({
+              type: 'warning',
+              message: `Uploaded ${successCount} image(s), but ${errorCount} failed`,
+              position: 'top',
+              timeout: 3000
+            });
+          }
+        }
       } catch (error) {
         errorMessage.value = 'Error processing images. Please try again.';
         console.error('Image processing error:', error);
+        $q.notify({
+          type: 'negative',
+          message: 'Failed to process images. Please try again.',
+          position: 'top',
+          timeout: 3000
+        });
       } finally {
         uploading.value = false;
         uploadProgress.value = 0;

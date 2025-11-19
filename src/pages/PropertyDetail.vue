@@ -48,13 +48,13 @@
           <div class="text-h6">Inquire about {{ property?.name }}</div>
         </q-card-section>
         <q-card-section>
-          <q-form @submit="submitInquiry" class="q-gutter-md">
+          <q-form @submit.prevent="submitInquiry" class="q-gutter-md">
             <q-input filled v-model="inquiry.name" label="Your Name" />
             <q-input filled v-model="inquiry.email" label="Your Email" type="email" />
             <q-input filled v-model="inquiry.message" type="textarea" label="Message" />
             <div class="row justify-end">
-              <q-btn flat label="Cancel" v-close-popup />
-              <q-btn label="Send" type="submit" color="secondary" class="q-ml-sm" />
+              <q-btn flat label="Cancel" v-close-popup type="button" />
+              <q-btn label="Send" type="submit" color="secondary" class="q-ml-sm" :loading="submittingInquiry" />
             </div>
           </q-form>
         </q-card-section>
@@ -78,6 +78,7 @@ export default defineComponent({
     const showInquiryForm = ref(false);
     const inquiry = ref({ name: '', email: '', message: '' });
     const slide = ref(0);
+    const submittingInquiry = ref(false);
 
     const property = computed(() => {
       const foundProperty = dataStore.propertiesForSale.find(p => p.id === parseInt(route.params.id));
@@ -114,15 +115,22 @@ export default defineComponent({
     });
 
     const submitInquiry = () => {
+      // Prevent double submission
+      if (submittingInquiry.value) {
+        return;
+      }
+      submittingInquiry.value = true;
       $q.notify({
         type: 'positive',
-        message: `Inquiry sent for ${property.value.name}! We will contact you soon.`
+        message: `Inquiry sent for ${property.value.name}! We will contact you soon.`,
+        timeout: 3000
       });
       showInquiryForm.value = false;
       inquiry.value = { name: '', email: '', message: '' };
+      submittingInquiry.value = false;
     };
 
-    return { property, slide, showInquiryForm, inquiry, submitInquiry };
+    return { property, slide, showInquiryForm, inquiry, submitInquiry, submittingInquiry };
   }
 });
 </script>

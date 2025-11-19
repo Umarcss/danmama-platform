@@ -15,7 +15,7 @@
             </q-card-section>
   
             <q-card-section>
-              <q-form @submit="onSubmit" class="q-gutter-md">
+              <q-form @submit.prevent="onSubmit" class="q-gutter-md">
                 <!-- Name Field -->
                 <q-input
                   filled
@@ -105,6 +105,7 @@
                     class="full-width text-weight-bold"
                     size="md"
                     icon-right="send"
+                    :loading="submitting"
                   />
                 </div>
               </q-form>
@@ -145,22 +146,44 @@
         '5B+'
       ]
   
+      const submitting = ref(false);
       // --- Form Submission ---
       const onSubmit = () => {
+        // Prevent double submission
+        if (submitting.value) {
+          return;
+        }
+        submitting.value = true;
+        
         console.log('Form Submitted!', formData.value)
   
         $q.notify({
           color: 'positive',
           position: 'top',
           message: 'Your request has been submitted successfully!',
-          icon: 'check_circle'
-        })
+          icon: 'check_circle',
+          timeout: 3000
+        });
+        
+        // Reset form
+        formData.value = {
+          name: '',
+          phone: '',
+          email: '',
+          requestType: '',
+          budget: null,
+          location: '',
+          specifications: ''
+        };
+        
+        submitting.value = false;
       }
   
       return {
         formData,
         budgetOptions,
-        onSubmit
+        onSubmit,
+        submitting
       }
     }
   })

@@ -666,11 +666,13 @@ export default defineComponent({
         }
         closeForm();
         await refreshData();
-      } catch {
+      } catch (error) {
+        console.error('Error saving commercial listing:', error);
         $q.notify({
           type: 'negative',
           message: 'Failed to save commercial listing. Please try again.',
-          position: 'top'
+          position: 'top',
+          timeout: 3000
         });
       }
     };
@@ -685,11 +687,13 @@ export default defineComponent({
         });
         cancelDelete();
         await refreshData();
-      } catch {
+      } catch (error) {
+        console.error('Error deleting commercial listing:', error);
         $q.notify({
           type: 'negative',
           message: 'Failed to delete commercial listing. Please try again.',
-          position: 'top'
+          position: 'top',
+          timeout: 3000
         });
       }
     };

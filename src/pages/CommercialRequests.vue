@@ -313,7 +313,7 @@
           </q-card-section>
           <q-separator />
           <q-card-section class="q-pa-md">
-            <q-form @submit="handleSave" class="q-gutter-lg">
+            <q-form @submit.prevent="handleSave" class="q-gutter-lg">
               <!-- Form Content -->
               <!-- Form Sections Row -->
               <div class="row q-gutter-md">
@@ -417,12 +417,13 @@
               </div>
 
               <div class="row justify-end q-mt-lg">
-                <q-btn flat label="Cancel" @click="closeForm" />
+                <q-btn flat label="Cancel" @click="closeForm" type="button" />
                 <q-btn
                   :label="editingRequest ? 'Update Request' : 'Submit Request'"
                   color="secondary"
                   class="q-ml-sm"
                   type="submit"
+                  :loading="saving"
                 />
               </div>
             </q-form>
@@ -487,6 +488,7 @@ export default defineComponent({
     const editingRequest = ref(null);
     const requestToView = ref(null);
     const requestToDelete = ref(null);
+    const saving = ref(false);
 
     const requestForm = reactive({
       clientName: '',
@@ -663,29 +665,40 @@ export default defineComponent({
 
     // CRUD operations
     const handleSave = async () => {
+      // Prevent double submission
+      if (saving.value) {
+        return;
+      }
+      saving.value = true;
       try {
         if (editingRequest.value) {
           await dataStore.updateItem('commercial-requests', editingRequest.value.id, { ...requestForm });
           $q.notify({
             type: 'positive',
             message: 'Commercial request updated successfully!',
-            position: 'top'
+            position: 'top',
+            timeout: 3000
           });
         } else {
           await dataStore.addNewItem('commercial-requests', { ...requestForm });
           $q.notify({
             type: 'positive',
             message: 'Commercial request added successfully!',
-            position: 'top'
+            position: 'top',
+            timeout: 3000
           });
         }
         closeForm();
-      } catch {
+      } catch (error) {
+        console.error('Error saving commercial request:', error);
         $q.notify({
           type: 'negative',
           message: 'Failed to save request. Please try again.',
-          position: 'top'
+          position: 'top',
+          timeout: 3000
         });
+      } finally {
+        saving.value = false;
       }
     };
 
@@ -763,6 +776,7 @@ export default defineComponent({
       editingRequest,
       requestToView,
       requestToDelete,
+      saving,
 
       // Table
       pagination,
