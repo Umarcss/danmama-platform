@@ -407,6 +407,16 @@
               </div>
             </div>
           </div>
+
+          <!-- Image Gallery Section (Bottom) -->
+          <div v-if="selectedCommercial?.images && selectedCommercial.images.length > 0" class="gallery-section q-pa-lg">
+            <div class="text-h6 text-weight-bold q-mb-md">Property Images</div>
+            <ImageGallery
+              :images="selectedCommercial.images"
+              :initial-index="selectedCommercial.primaryImage || 0"
+              :primary-image="selectedCommercial.primaryImage || 0"
+            />
+          </div>
         </div>
       </q-scroll-area>
     </q-dialog>
@@ -419,10 +429,11 @@ import { useDataStore } from 'src/stores/data-store';
 import { useAuthStore } from 'src/stores/auth-store';
 import { useQuasar } from 'quasar';
 import AddPropertyForm from 'src/components/forms/AddPropertyForm.vue';
+import ImageGallery from 'src/components/ImageGallery.vue';
 
 export default defineComponent({
   name: 'CommercialListings',
-  components: { AddPropertyForm },
+  components: { AddPropertyForm, ImageGallery },
   setup() {
     const dataStore = useDataStore();
     const authStore = useAuthStore();
@@ -569,6 +580,15 @@ export default defineComponent({
 
     // Helper functions
     const getImageUrl = (commercial) => {
+      if (!commercial) return 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070';
+      // Use primary image from images array if available
+      if (commercial.images && Array.isArray(commercial.images) && commercial.images.length > 0) {
+        const primaryIndex = commercial.primaryImage !== null && commercial.primaryImage !== undefined
+          ? commercial.primaryImage
+          : 0;
+        return commercial.images[primaryIndex] || commercial.images[0];
+      }
+      // Fallback to old image field or default
       return commercial.image || 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070';
     };
 
@@ -1356,5 +1376,11 @@ export default defineComponent({
   .price-display {
     font-size: 1.5rem;
   }
+}
+
+/* Gallery Section */
+.gallery-section {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  margin-top: 0;
 }
 </style>

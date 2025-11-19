@@ -291,6 +291,9 @@ export const mockApi = {
   async addCommercialListing(listing) { 
     await delay(300); 
     listing.id = Date.now(); 
+    // Ensure images array and primaryImage exist
+    if (!listing.images) listing.images = [];
+    if (listing.primaryImage === undefined) listing.primaryImage = listing.images.length > 0 ? 0 : null;
     commercialListings.push(listing);
     saveToStorage(STORAGE_KEYS.COMMERCIAL_LISTINGS, commercialListings);
     return listing; 
