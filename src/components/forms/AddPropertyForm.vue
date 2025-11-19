@@ -128,7 +128,7 @@
   
   <script>
   import { defineComponent, reactive, computed, watch, ref } from 'vue';
-  import { useQuasar, Dialog } from 'quasar';
+  import { useQuasar } from 'quasar';
   import ImageUploader from './ImageUploader.vue';
 
   export default defineComponent({
@@ -231,22 +231,7 @@
             throw new Error(`Please fill in: ${missingFields.join(', ')}`);
           }
 
-          // Validate images (optional but recommended)
-          if (!form.images || form.images.length === 0) {
-            const confirmed = await new Promise((resolve) => {
-              Dialog.create({
-                title: 'No Images',
-                message: 'You haven\'t added any images. Do you want to continue without images?',
-                cancel: true,
-                persistent: true
-              }).onOk(() => resolve(true)).onCancel(() => resolve(false));
-            });
-            if (!confirmed) {
-              loading.value = false;
-              return;
-            }
-          }
-
+          // Images are optional - no validation needed
           emit('save', { ...form });
         } catch (error) {
           console.error('Form validation error:', error);
