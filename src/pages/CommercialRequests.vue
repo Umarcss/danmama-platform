@@ -374,11 +374,11 @@
                   <!-- Request Details -->
                   <div class="form-section">
                     <div class="text-subtitle1 text-weight-medium text-primary q-mb-md">Request Details</div>
-                    <q-select
+                    <q-input
                       filled
                       v-model="requestForm.request"
-                      :options="['Office Space', 'Retail Shop', 'Warehouse', 'Restaurant Space', 'Showroom', 'Industrial Space', 'Medical Facility']"
                       label="Request Type *"
+                      placeholder="e.g., Office Space, Retail Shop, Warehouse, Restaurant Space, Showroom, Industrial Space, Medical Facility"
                       required
                       lazy-rules
                       :rules="[val => !!val || 'Request type is required']"
@@ -491,7 +491,7 @@ export default defineComponent({
     const requestForm = reactive({
       clientName: '',
       phoneNumber: '',
-      request: null,
+      request: '',
       budget: '',
       city: '',
       Locationn: '',
@@ -609,7 +609,7 @@ export default defineComponent({
       Object.assign(requestForm, {
         clientName: '',
         phoneNumber: '',
-        request: null,
+        request: '',
         budget: '',
         city: '',
         Locationn: '',
@@ -625,7 +625,7 @@ export default defineComponent({
       Object.assign(requestForm, {
         clientName: request.clientName || '',
         phoneNumber: request.phoneNumber || '',
-        request: request.request || null,
+        request: request.request || '',
         budget: request.budget || '',
         city: request.city || '',
         Locationn: request.Locationn || '',

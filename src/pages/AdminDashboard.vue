@@ -6,15 +6,33 @@
         <div class="text-h4 text-weight-bold text-primary q-mb-sm">Admin Dashboard</div>
         <div class="text-subtitle1 text-grey-6">Comprehensive real estate management overview</div>
       </div>
-      <q-btn
-        color="secondary"
-        icon="refresh"
-        label="Refresh Data"
-        @click="refreshData"
-        :loading="loading"
-        unelevated
-        class="q-px-lg"
-      />
+      <div class="row q-gutter-sm">
+        <q-btn
+          color="primary"
+          icon="download"
+          label="Export Data"
+          @click="exportData"
+          unelevated
+          class="q-px-lg"
+        />
+        <q-btn
+          color="warning"
+          icon="restart_alt"
+          label="Reset to JSON"
+          @click="resetToJSON"
+          unelevated
+          class="q-px-lg"
+        />
+        <q-btn
+          color="secondary"
+          icon="refresh"
+          label="Refresh Data"
+          @click="refreshData"
+          :loading="loading"
+          unelevated
+          class="q-px-lg"
+        />
+      </div>
     </div>
 
     <!-- Statistics Cards -->
@@ -312,6 +330,7 @@ import { defineComponent, ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useDataStore } from 'src/stores/data-store';
 import { useQuasar } from 'quasar';
+import { mockApi } from 'src/services/mockApi';
   
   export default defineComponent({
     name: 'AdminDashboard',
@@ -476,6 +495,54 @@ import { useQuasar } from 'quasar';
     };
 
     // Action methods
+    const exportData = () => {
+      try {
+        mockApi.exportToJSON();
+        $q.notify({
+          type: 'positive',
+          message: 'Data exported successfully! Replace src/data/database.json with the downloaded file and commit to Git.',
+          position: 'top',
+          timeout: 6000,
+          actions: [
+            { label: 'OK', color: 'white' }
+          ]
+        });
+      } catch (error) {
+        console.error('Export error:', error);
+        $q.notify({
+          type: 'negative',
+          message: 'Failed to export data. Please try again.',
+          position: 'top'
+        });
+      }
+    };
+
+    const resetToJSON = () => {
+      $q.dialog({
+        title: 'Reset to JSON Data',
+        message: 'This will clear all local changes and reload data from the JSON file. Are you sure?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        try {
+          mockApi.resetToJSONData();
+          refreshData();
+          $q.notify({
+            type: 'positive',
+            message: 'Data reset to JSON file successfully!',
+            position: 'top'
+          });
+        } catch (error) {
+          console.error('Reset error:', error);
+          $q.notify({
+            type: 'negative',
+            message: 'Failed to reset data. Please try again.',
+            position: 'top'
+          });
+        }
+      });
+    };
+
     const exportReport = () => {
       $q.notify({
         type: 'info',
@@ -529,6 +596,8 @@ import { useQuasar } from 'quasar';
 
       // Methods
       refreshData,
+      exportData,
+      resetToJSON,
       formatCurrency,
       getStatusColor,
       navigateToProperties,

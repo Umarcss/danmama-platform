@@ -251,7 +251,7 @@
     <q-dialog v-model="showDetailsDialog" class="modern-modal" maximized>
       <q-scroll-area style="height: 90vh; max-width: 100%;">
         <div class="modal-card">
-          <!-- Hero Section -->
+          <!-- Hero Section (Header Only) -->
           <div class="modal-hero">
             <div class="hero-background">
               <img :src="getImageUrl(selectedProperty)" alt="Property" class="hero-image">
@@ -288,7 +288,7 @@
             </div>
           </div>
 
-          <!-- Modal Content -->
+          <!-- Modal Content (Property Information - Top) -->
           <div class="modal-content" v-if="selectedProperty">
             <div class="content-grid">
               <!-- Basic Property Information -->
@@ -416,7 +416,17 @@
               </div>
             </div>
           </div>
+
+        <!-- Image Gallery Section (Bottom) -->
+        <div v-if="selectedProperty?.images && selectedProperty.images.length > 0" class="gallery-section q-pa-lg">
+          <div class="text-h6 text-weight-bold q-mb-md">Property Images</div>
+          <ImageGallery
+            :images="selectedProperty.images"
+            :initial-index="selectedProperty.primaryImage || 0"
+            :primary-image="selectedProperty.primaryImage || 0"
+          />
         </div>
+      </div>
       </q-scroll-area>
     </q-dialog>
   </q-page>
@@ -428,10 +438,11 @@ import { useDataStore } from 'src/stores/data-store';
 import { useAuthStore } from 'src/stores/auth-store';
 import { useQuasar } from 'quasar';
 import AddPropertyForm from 'src/components/forms/AddPropertyForm.vue';
+import ImageGallery from 'src/components/ImageGallery.vue';
 
 export default defineComponent({
   name: 'PropertiesForRent',
-  components: { AddPropertyForm },
+  components: { AddPropertyForm, ImageGallery },
   setup() {
     const dataStore = useDataStore();
     const authStore = useAuthStore();
@@ -537,6 +548,15 @@ export default defineComponent({
 
     // Helper functions
     const getImageUrl = (property) => {
+      if (!property) return 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070';
+      // Use primary image from images array if available
+      if (property.images && Array.isArray(property.images) && property.images.length > 0) {
+        const primaryIndex = property.primaryImage !== undefined && property.primaryImage !== null 
+          ? property.primaryImage 
+          : 0;
+        return property.images[primaryIndex] || property.images[0];
+      }
+      // Fallback to old image property or default
       return property.image || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070';
     };
 
@@ -1105,7 +1125,13 @@ export default defineComponent({
 /* Modal Content */
 .modal-content {
   padding: 40px;
-  background: rgba(255, 255, 255, 0.98);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+/* Gallery Section */
+.gallery-section {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 32px;
 }
 
 .content-grid {

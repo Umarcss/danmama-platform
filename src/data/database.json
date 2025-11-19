@@ -1,0 +1,203 @@
+{
+  "_version": 1,
+  "propertiesForSale": [
+    {
+      "id": 1,
+      "name": "Mike Adenya House",
+      "type": "Built House",
+      "address": "Colorado Street (Maitama)",
+      "description": "Fully Detached, 3 bedrooms shared compound, swimming pool available",
+      "landmark": "Mike Adenya House, Saudi Embassy",
+      "city": "Abuja",
+      "price": "N4.5Billion",
+      "titleDocument": "N/A",
+      "agentName": "Agent A",
+      "agentNumber": "07081731601",
+      "status": "Available",
+      "images": [
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070",
+        "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=2070"
+      ],
+      "primaryImage": 0
+    },
+    {
+      "id": 2,
+      "name": "Gwarimpa Duplex",
+      "type": "Built House",
+      "address": "Gwarimpa 4th Avenue by H-Medix",
+      "description": "4 bedrooms semi-detached duplex...",
+      "landmark": "H-Medix 4th Avenue",
+      "city": "Abuja",
+      "price": "N450Million",
+      "titleDocument": "FHA",
+      "agentName": "Abubakr",
+      "agentNumber": "08033377927",
+      "status": "Sold",
+      "images": [
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2070"
+      ],
+      "primaryImage": 0
+    },
+    {
+      "id": 3,
+      "name": "Dawaki Terraces",
+      "type": "Built Estate",
+      "address": "Dawaki, Kubwa Express Way",
+      "description": "16 units newly constructed 4-Bedrooms terraces...",
+      "landmark": "N/A",
+      "city": "Abuja",
+      "price": "N5.5 Billion",
+      "titleDocument": "FCDA C of O",
+      "agentName": "Agent B",
+      "agentNumber": "N/A",
+      "status": "Available",
+      "images": [
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070"
+      ],
+      "primaryImage": 0
+    }
+  ],
+  "listingsForLand": [
+    {
+      "id": 1,
+      "name": "Asokoro Plot",
+      "type": "Residential",
+      "address": "Asokoro",
+      "landmark": "N/A",
+      "landSize": "Unknown",
+      "city": "Abuja",
+      "price": "Contact for Price",
+      "titleDocument": "N/A",
+      "sellerName": "N/A",
+      "sellerContact": "08028619475",
+      "status": "Available"
+    },
+    {
+      "id": 2,
+      "name": "Mararraba Bridge Land",
+      "type": "Commercial",
+      "address": "Mararraba Bridge",
+      "landmark": "N/A",
+      "landSize": "Unknown",
+      "city": "Abuja",
+      "price": "600 Million",
+      "titleDocument": "N/A",
+      "sellerName": "N/A",
+      "sellerContact": "08032190655",
+      "status": "Under Offer"
+    }
+  ],
+  "propertyRequests": [
+    {
+      "id": 1,
+      "clientName": "Huzaifa",
+      "request": "Filling Station",
+      "phoneNumber": "08140545112",
+      "city": "Abuja",
+      "location": "Any",
+      "address": "Katampe Area",
+      "budget": "600M",
+      "size": "2 Acres",
+      "specification": "Katampe(Shema)",
+      "status": "New"
+    },
+    {
+      "id": 2,
+      "clientName": "Client B",
+      "request": "Built House",
+      "phoneNumber": "N/A",
+      "city": "Abuja",
+      "location": "Gwarimpa",
+      "address": "Gwarimpa Estate",
+      "budget": "150-200M",
+      "size": "500 sqm",
+      "specification": "3 or 4 bedrooms Bungalow",
+      "status": "Contacted"
+    },
+    {
+      "id": 3,
+      "clientName": "John Doe",
+      "request": "Office Space",
+      "phoneNumber": "08098765432",
+      "city": "Abuja",
+      "location": "Wuse 2",
+      "address": "Wuse 2 Business District",
+      "budget": "2-3M",
+      "size": "1000 sq ft",
+      "specification": "Modern office with parking",
+      "status": "New"
+    },
+    {
+      "id": 4,
+      "clientName": "Sarah Johnson",
+      "request": "Land",
+      "phoneNumber": "07012345678",
+      "city": "Abuja",
+      "location": "Maitama",
+      "address": "Maitama Extension",
+      "budget": "50-100M",
+      "size": "1.5 Acres",
+      "specification": "For residential development",
+      "status": "Contacted"
+    }
+  ],
+  "listingsForRentals": [
+    {
+      "id": 1,
+      "name": "Luxury Apartment in Wuse 2",
+      "type": "Apartment",
+      "address": "Wuse 2",
+      "description": "3 bedroom apartment with modern amenities",
+      "landmark": "N/A",
+      "city": "Abuja",
+      "price": "N2.5 Million/year",
+      "status": "Available",
+      "images": [
+        "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=2070"
+      ],
+      "primaryImage": 0
+    },
+    {
+      "id": 2,
+      "name": "Office Space in Maitama",
+      "type": "Commercial",
+      "address": "Maitama",
+      "description": "2,000 sq ft office space",
+      "landmark": "N/A",
+      "city": "Abuja",
+      "price": "N5 Million/year",
+      "status": "Available",
+      "images": [
+        "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070"
+      ],
+      "primaryImage": 0
+    }
+  ],
+  "commercialRequests": [
+    {
+      "id": 1,
+      "clientName": "Business Owner",
+      "request": "Office Space",
+      "phoneNumber": "08012345678",
+      "city": "Abuja",
+      "location": "Central Business District",
+      "budget": "3-5M",
+      "specification": "1000+ sq ft",
+      "status": "New"
+    }
+  ],
+  "commercialListings": [
+    {
+      "id": 1,
+      "name": "Shopping Mall Space",
+      "type": "Retail",
+      "address": "Wuse 2",
+      "description": "Prime retail space in busy shopping mall",
+      "landmark": "N/A",
+      "city": "Abuja",
+      "price": "N15 Million/year",
+      "status": "Available"
+    }
+  ]
+}
+

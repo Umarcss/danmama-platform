@@ -239,11 +239,11 @@
                   <!-- Property Information -->
                   <div class="form-section">
                     <div class="text-subtitle1 text-weight-medium text-primary q-mb-md">Property Information</div>
-                    <q-select
+                    <q-input
                       filled
                       v-model="requestForm.request"
-                      :options="['Built House', 'Land', 'Office Space', 'Shop', 'Filling Station']"
                       label="Property Type Needed *"
+                      placeholder="e.g., Built House, Land, Office Space, Shop, Filling Station"
                       required
                       lazy-rules
                       :rules="[val => !!val || 'Property type is required']"
@@ -431,7 +431,7 @@
                 </div>
               </div>
 
-              <!-- Client Information -->
+              <!-- Client Information (Name and Location visible to all, Phone only for authenticated) -->
               <div class="info-card glass-card">
                 <div class="card-header">
                   <div class="card-icon-wrapper">
@@ -448,7 +448,7 @@
                         <div class="contact-value">{{ requestToView?.clientName || 'N/A' }}</div>
                       </div>
                     </div>
-                    <div class="contact-item">
+                    <div v-if="isAuthenticated" class="contact-item">
                       <q-icon name="phone" />
                       <div>
                         <div class="contact-label">Phone Number</div>
@@ -530,7 +530,7 @@ export default defineComponent({
     const requestForm = reactive({
       clientName: '',
       phoneNumber: '',
-      request: null,
+      request: '',
       location: '',
       address: '',
       budget: '',
@@ -547,85 +547,95 @@ export default defineComponent({
       rowsNumber: 0
     });
 
-    const columns = [
-      {
-        name: 'serialNumber',
-        label: 'S/N',
-        align: 'center',
-        field: 'serialNumber',
-        sortable: false
-      },
-      {
-        name: 'clientName',
-        label: 'Client Name',
-        align: 'left',
-        field: 'clientName',
-        sortable: true
-      },
-      {
-        name: 'request',
-        label: 'Property Type',
-        align: 'left',
-        field: 'request',
-        sortable: true
-      },
-      {
-        name: 'size',
-        label: 'Size',
-        align: 'left',
-        field: 'size',
-        sortable: true
-      },
-      {
-        name: 'location',
-        label: 'Location',
-        align: 'left',
-        field: 'location',
-        sortable: true
-      },
-      {
-        name: 'address',
-        label: 'Address',
-        align: 'left',
-        field: 'address',
-        sortable: true
-      },
-      {
-        name: 'budget',
-        label: 'Budget',
-        align: 'right',
-        field: 'budget',
-        sortable: true
-      },
-      {
-        name: 'phoneNumber',
-        label: 'Contact',
-        align: 'left',
-        field: 'phoneNumber',
-        sortable: true
-      },
-      {
-        name: 'specification',
-        label: 'Requirements',
-        align: 'left',
-        field: 'specification',
-        sortable: false
-      },
-      {
-        name: 'status',
-        label: 'Status',
-        align: 'center',
-        field: 'status',
-        sortable: true
-      },
-      {
-        name: 'actions',
-        label: 'Actions',
-        align: 'center',
-        field: 'actions',
-        sortable: false
+    const columns = computed(() => {
+      const baseColumns = [
+        {
+          name: 'serialNumber',
+          label: 'S/N',
+          align: 'center',
+          field: 'serialNumber',
+          sortable: false
+        },
+        {
+          name: 'clientName',
+          label: 'Client Name',
+          align: 'left',
+          field: 'clientName',
+          sortable: true
+        },
+        {
+          name: 'request',
+          label: 'Property Type',
+          align: 'left',
+          field: 'request',
+          sortable: true
+        },
+        {
+          name: 'size',
+          label: 'Size',
+          align: 'left',
+          field: 'size',
+          sortable: true
+        },
+        {
+          name: 'location',
+          label: 'Location',
+          align: 'left',
+          field: 'location',
+          sortable: true
+        },
+        {
+          name: 'address',
+          label: 'Address',
+          align: 'left',
+          field: 'address',
+          sortable: true
+        },
+        {
+          name: 'budget',
+          label: 'Budget',
+          align: 'right',
+          field: 'budget',
+          sortable: true
+        },
+        {
+          name: 'specification',
+          label: 'Requirements',
+          align: 'left',
+          field: 'specification',
+          sortable: false
+        },
+        {
+          name: 'status',
+          label: 'Status',
+          align: 'center',
+          field: 'status',
+          sortable: true
+        },
+        {
+          name: 'actions',
+          label: 'Actions',
+          align: 'center',
+          field: 'actions',
+          sortable: false
+        }
+      ];
+
+      // Only show phone number column for authenticated users
+      if (isAuthenticated.value) {
+        // Insert phoneNumber after budget
+        const budgetIndex = baseColumns.findIndex(col => col.name === 'budget');
+        baseColumns.splice(budgetIndex + 1, 0, {
+          name: 'phoneNumber',
+          label: 'Contact',
+          align: 'left',
+          field: 'phoneNumber',
+          sortable: true
+        });
       }
-    ];
+
+      return baseColumns;
+    });
 
     const getStatusColor = (status) => {
       const colors = {
@@ -660,7 +670,7 @@ export default defineComponent({
       Object.assign(requestForm, {
         clientName: '',
         phoneNumber: '',
-        request: null,
+        request: '',
         location: '',
         address: '',
         budget: '',
@@ -676,7 +686,7 @@ export default defineComponent({
       Object.assign(requestForm, {
         clientName: item.clientName || '',
         phoneNumber: item.phoneNumber || '',
-        request: item.request || null,
+        request: item.request || '',
         location: item.location || '',
         address: item.address || '',
         budget: item.budget || '',
@@ -811,7 +821,7 @@ export default defineComponent({
       Object.assign(requestForm, {
         clientName: '',
         phoneNumber: '',
-        request: null,
+        request: '',
         location: '',
         address: '',
         budget: '',

@@ -54,15 +54,13 @@
                 <!-- Request Type & Budget -->
                 <div class="row q-gutter-sm">
                   <div class="col">
-                    <q-select
+                    <q-input
                       filled
                       v-model="formData.requestType"
-                      :options="requestTypeOptions"
                       label="What are you looking for? *"
-                      emit-value
-                      map-options
+                      placeholder="e.g., Residential House, Land (Residential), Land (Commercial), Commercial Property"
                       lazy-rules
-                      :rules="[ val => val && val.length > 0 || 'Please select a request type']"
+                      :rules="[ val => val && val.length > 0 || 'Please enter a request type']"
                     />
                   </div>
                   <div class="col">
@@ -138,13 +136,6 @@
       })
   
       // --- Options for Select Fields ---
-      const requestTypeOptions = [
-        'Residential House',
-        'Land (Residential)',
-        'Land (Commercial)',
-        'Commercial Property (e.g., Filling Station)'
-      ]
-  
       const budgetOptions = [
         '50M - 150M',
         '150M - 300M',
@@ -168,7 +159,6 @@
   
       return {
         formData,
-        requestTypeOptions,
         budgetOptions,
         onSubmit
       }

@@ -13,7 +13,7 @@
           height="400px"
           class="text-white rounded-borders"
         >
-          <q-carousel-slide v-for="(img, index) in property.images" :key="index" :name="index" :img-src="img" />
+          <q-carousel-slide v-for="(img, index) in (property.images || [])" :key="index" :name="index" :img-src="img" />
         </q-carousel>
         <div class="q-mt-md">
           <div class="text-h4">{{ property.name }}</div>
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, computed } from 'vue';
+import { defineComponent, ref, onMounted, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useDataStore } from 'src/stores/data-store';
 import { useQuasar } from 'quasar';
@@ -75,21 +75,37 @@ export default defineComponent({
     const route = useRoute();
     const dataStore = useDataStore();
     const $q = useQuasar();
-    const slide = ref(1);
     const showInquiryForm = ref(false);
     const inquiry = ref({ name: '', email: '', message: '' });
+    const slide = ref(0);
 
     const property = computed(() => {
-      // Add placeholder images for the carousel
       const foundProperty = dataStore.propertiesForSale.find(p => p.id === parseInt(route.params.id));
-      if (foundProperty) {
-        foundProperty.images = [
-          'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070',
-          'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=2070'
-        ];
+      if (!foundProperty) return null;
+      
+      // Return property with default images if none exist (without mutating original)
+      if (!foundProperty.images || foundProperty.images.length === 0) {
+        return {
+          ...foundProperty,
+          images: [
+            'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070',
+            'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=2070'
+          ],
+          primaryImage: 0
+        };
       }
       return foundProperty;
     });
+
+    // Watch property changes and update slide to primary image
+    watch(property, (newProperty) => {
+      if (newProperty && newProperty.images && newProperty.images.length > 0) {
+        const primaryIndex = newProperty.primaryImage !== undefined && newProperty.primaryImage !== null
+          ? newProperty.primaryImage
+          : 0;
+        slide.value = primaryIndex;
+      }
+    }, { immediate: true });
 
     onMounted(() => {
       if (dataStore.propertiesForSale.length === 0) {

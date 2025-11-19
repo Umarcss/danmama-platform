@@ -41,14 +41,40 @@ export const useDataStore = defineStore('data', {
       try {
         let newItem;
         switch (type) {
-          case 'properties': newItem = await mockApi.addPropertyForSale(item); this.propertiesForSale.push(newItem); break;
-          case 'rental': newItem = await mockApi.addListingForRental(item); this.listingsForRentals.push(newItem); break;
-          case 'land': newItem = await mockApi.addListingForLand(item); this.listingsForLand.push(newItem); break;
-          case 'property-requests': newItem = await mockApi.addPropertyRequest(item); this.propertyRequests.push(newItem); break;
-          case 'commercial-requests': newItem = await mockApi.addCommercialRequest(item); this.commercialRequests.push(newItem); break;
-          case 'commercial': newItem = await mockApi.addCommercialListing(item); this.commercialListings.push(newItem); break;
+          case 'properties':
+          case 'properties-for-sale':
+            newItem = await mockApi.addPropertyForSale(item);
+            this.propertiesForSale.push(newItem);
+            break;
+          case 'rental':
+          case 'listingsForRentals':
+          case 'listings-for-rentals':
+            newItem = await mockApi.addListingForRental(item);
+            this.listingsForRentals.push(newItem);
+            break;
+          case 'land':
+          case 'listingsForLand':
+          case 'listings-for-land':
+            newItem = await mockApi.addListingForLand(item);
+            this.listingsForLand.push(newItem);
+            break;
+          case 'property-requests':
+            newItem = await mockApi.addPropertyRequest(item);
+            this.propertyRequests.push(newItem);
+            break;
+          case 'commercial-requests':
+            newItem = await mockApi.addCommercialRequest(item);
+            this.commercialRequests.push(newItem);
+            break;
+          case 'commercial':
+          case 'commercialListings':
+          case 'commercial-listings':
+            newItem = await mockApi.addCommercialListing(item);
+            this.commercialListings.push(newItem);
+            break;
+          default:
+            throw new Error(`Unknown type: ${type}`);
         }
-        this.loading = false;
         return newItem;
       } finally {
         this.loading = false;
@@ -58,36 +84,120 @@ export const useDataStore = defineStore('data', {
 
     // --- NEW CRUD ACTIONS ---
     async updateItem(type, id, data) {
+      const loadingStore = useLoadingStore();
+      loadingStore.startLoading('updateItem', 'Updating Property', 'Saving changes...');
       this.loading = true;
-      let updatedItem;
-      // Construct the API function name dynamically
-      const apiFunctionName = `update${type.charAt(0).toUpperCase() + type.slice(1, -1)}`; // 'properties' -> 'updateProperty'
-      updatedItem = await mockApi[apiFunctionName](id, data);
+      
+      try {
+        let updatedItem;
+        let stateKey;
+        
+        // Map type to correct API function and state key
+        switch (type) {
+          case 'properties':
+          case 'properties-for-sale':
+            updatedItem = await mockApi.updatePropertyForSale(id, data);
+            stateKey = 'propertiesForSale';
+            break;
+          case 'rental':
+          case 'listingsForRentals':
+          case 'listings-for-rentals':
+            updatedItem = await mockApi.updateListingForRental(id, data);
+            stateKey = 'listingsForRentals';
+            break;
+          case 'land':
+          case 'listingsForLand':
+          case 'listings-for-land':
+            updatedItem = await mockApi.updateListingForLand(id, data);
+            stateKey = 'listingsForLand';
+            break;
+          case 'property-requests':
+            updatedItem = await mockApi.updatePropertyRequest(id, data);
+            stateKey = 'propertyRequests';
+            break;
+          case 'commercial-requests':
+            updatedItem = await mockApi.updateCommercialRequest(id, data);
+            stateKey = 'commercialRequests';
+            break;
+          case 'commercial':
+          case 'commercialListings':
+          case 'commercial-listings':
+            updatedItem = await mockApi.updateCommercialListing(id, data);
+            stateKey = 'commercialListings';
+            break;
+          default:
+            throw new Error(`Unknown type: ${type}`);
+        }
 
-      if (updatedItem) {
-        // Update the item in the local state
-        const stateKey = `${type.replace('-', '')}`; // 'property-requests' -> 'propertyrequests'
-        const itemArray = this[stateKey];
-        const index = itemArray.findIndex(item => item.id === id);
-        if (index !== -1) itemArray[index] = updatedItem;
+        if (updatedItem) {
+          // Update the item in the local state
+          const itemArray = this[stateKey];
+          const index = itemArray.findIndex(item => item.id === id);
+          if (index !== -1) itemArray[index] = updatedItem;
+        }
+        return updatedItem;
+      } finally {
+        this.loading = false;
+        loadingStore.stopLoading('updateItem');
       }
-      this.loading = false;
-      return updatedItem;
     },
 
     async deleteItem(type, id) {
+      const loadingStore = useLoadingStore();
+      loadingStore.startLoading('deleteItem', 'Deleting Property', 'Removing property...');
       this.loading = true;
-      const apiFunctionName = `delete${type.charAt(0).toUpperCase() + type.slice(1, -1)}`; // 'properties' -> 'deleteProperty'
-      const success = await mockApi[apiFunctionName](id);
+      
+      try {
+        let success;
+        let stateKey;
+        
+        // Map type to correct API function and state key
+        switch (type) {
+          case 'properties':
+          case 'properties-for-sale':
+            success = await mockApi.deletePropertyForSale(id);
+            stateKey = 'propertiesForSale';
+            break;
+          case 'rental':
+          case 'listingsForRentals':
+          case 'listings-for-rentals':
+            success = await mockApi.deleteListingForRental(id);
+            stateKey = 'listingsForRentals';
+            break;
+          case 'land':
+          case 'listingsForLand':
+          case 'listings-for-land':
+            success = await mockApi.deleteListingForLand(id);
+            stateKey = 'listingsForLand';
+            break;
+          case 'property-requests':
+            success = await mockApi.deletePropertyRequest(id);
+            stateKey = 'propertyRequests';
+            break;
+          case 'commercial-requests':
+            success = await mockApi.deleteCommercialRequest(id);
+            stateKey = 'commercialRequests';
+            break;
+          case 'commercial':
+          case 'commercialListings':
+          case 'commercial-listings':
+            success = await mockApi.deleteCommercialListing(id);
+            stateKey = 'commercialListings';
+            break;
+          default:
+            throw new Error(`Unknown type: ${type}`);
+        }
 
-      if (success) {
-        const stateKey = `${type.replace('-', '')}`;
-        const itemArray = this[stateKey];
-        const index = itemArray.findIndex(item => item.id === id);
-        if (index !== -1) itemArray.splice(index, 1);
+        if (success) {
+          const itemArray = this[stateKey];
+          const index = itemArray.findIndex(item => item.id === id);
+          if (index !== -1) itemArray.splice(index, 1);
+        }
+        return success;
+      } finally {
+        this.loading = false;
+        loadingStore.stopLoading('deleteItem');
       }
-      this.loading = false;
-      return success;
     }
   },
 });

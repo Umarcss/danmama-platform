@@ -109,6 +109,14 @@
             </div>
           </div>
 
+          <!-- Image Upload Section -->
+          <div class="form-section full-width">
+            <ImageUploader
+              v-model="form.images"
+              v-model:primaryImageIndex="form.primaryImage"
+            />
+          </div>
+
           <div class="row justify-end q-mt-lg">
             <q-btn flat label="Cancel" @click="$emit('close')" />
             <q-btn :label="isEditing ? 'Update' : 'Save'" color="secondary" class="q-ml-sm" :loading="loading" @click="onSubmit" />
@@ -120,9 +128,13 @@
   
   <script>
   import { defineComponent, reactive, computed, watch, ref } from 'vue';
+  import ImageUploader from './ImageUploader.vue';
 
   export default defineComponent({
     name: 'AddPropertyForm',
+    components: {
+      ImageUploader
+    },
     props: {
       // This prop will be used to pre-fill the form for editing
       itemToEdit: {
@@ -162,7 +174,11 @@
         // Agent Information
         agentName: '',
         agentNumber: '',
-        agentEmail: ''
+        agentEmail: '',
+
+        // Images
+        images: [],
+        primaryImage: null
       });
 
       // Watch for changes in the itemToEdit prop and update the form
@@ -181,6 +197,10 @@
               form[key] = 'Available';
             } else if (key === 'dateListed') {
               form[key] = new Date().toISOString().split('T')[0];
+            } else if (key === 'images') {
+              form[key] = [];
+            } else if (key === 'primaryImage') {
+              form[key] = null;
             } else {
               form[key] = '';
             }
@@ -243,5 +263,10 @@
   .form-section {
     min-height: 200px;
   }
+}
+
+.full-width {
+  width: 100%;
+  grid-column: 1 / -1;
 }
 </style>
